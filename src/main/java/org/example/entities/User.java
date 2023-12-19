@@ -1,4 +1,4 @@
-package org.example.dao;
+package org.example.entities;
 
 import javax.persistence.*;
 import java.util.UUID;

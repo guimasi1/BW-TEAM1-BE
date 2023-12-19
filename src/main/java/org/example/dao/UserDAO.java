@@ -1,5 +1,7 @@
 package org.example.dao;
 
+import org.example.entities.User;
+
 import javax.persistence.EntityManager;
 import javax.persistence.EntityTransaction;
 import java.util.UUID;
