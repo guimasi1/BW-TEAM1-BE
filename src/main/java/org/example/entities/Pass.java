@@ -5,8 +5,8 @@ import javax.persistence.OneToOne;
 import java.time.LocalDate;
 @Entity
 public class Pass extends ControlManagement{
-    @OneToOne
-    User user;
+/*    @OneToOne
+    User user;*/
     Periodicity periodicity;
     LocalDate dataDiScadenza;
 
@@ -35,13 +35,12 @@ public class Pass extends ControlManagement{
     @Override
     public String toString() {
         return "Pass{" +
-                "user=" + user +
+              //  ", user=" + user +
                 ", periodicity=" + periodicity +
                 ", dataDiScadenza=" + dataDiScadenza +
                 ", uuid=" + uuid +
                 ", prezzo=" + prezzo +
                 ", dataEmissione=" + dataEmissione +
-                ", user=" + user +
                 '}';
     }
 }

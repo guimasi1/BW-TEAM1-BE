@@ -6,8 +6,8 @@ import java.time.LocalDate;
 
 @Entity
 public class Ticket extends ControlManagement{
-    @ManyToOne
-    User user;
+   /* @ManyToOne
+    User user;*/
     LocalDate dataDiVidimazione;
 
     public Ticket(LocalDate dataEmissione, double prezzo, LocalDate dataDiVidimazione) {
@@ -26,7 +26,7 @@ public class Ticket extends ControlManagement{
                 ", uuid=" + uuid +
                 ", prezzo=" + prezzo +
                 ", dataEmissione=" + dataEmissione +
-                ", user=" + user +
+                // ", user=" + user +
                 '}';
     }
 }

@@ -13,8 +13,8 @@ public abstract class ControlManagement {
         UUID uuid;
         double prezzo;
         LocalDate dataEmissione;
-
-        User user;
+/*
+        User user;*/
 
         public  ControlManagement(){
 
@@ -50,7 +50,7 @@ public abstract class ControlManagement {
                     "uuid=" + uuid +
                     ", prezzo=" + prezzo +
                     ", dataEmissione=" + dataEmissione +
-                    ", user=" + user +
+                    // ", user=" + user +
                     '}';
         }
     }
