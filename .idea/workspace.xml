@@ -4,8 +4,14 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="464c2b07-0162-48d5-a3f0-26695a0ec1b0" name="Changes" comment="mod">
-      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
+
+    <list default="true" id="464c2b07-0162-48d5-a3f0-26695a0ec1b0" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/entities/Application.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/entities/Application.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/entities/ControlManagement.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/entities/ControlManagement.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/entities/Pass.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/entities/Pass.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/entities/Ticket.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/entities/Ticket.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/entities/User.java" beforeDir="false" />
+
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -15,7 +21,7 @@
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
       <list>
-        <option value="Kotlin Class" />
+
         <option value="Class" />
       </list>
     </option>
@@ -36,7 +42,13 @@
   "keyToString": {
     "RunOnceActivity.OpenProjectViewOnStart": "true",
     "RunOnceActivity.ShowReadmeOnStart": "true",
-    "git-widget-placeholder": "LorenzaBranch"
+
+    "git-widget-placeholder": "Guido-1",
+    "project.structure.last.edited": "Project",
+    "project.structure.proportion": "0.0",
+    "project.structure.side.proportion": "0.0",
+    "settings.editor.selected.configurable": "reference.settings.ide.settings.notifications"
+
   }
 }]]></component>
   <component name="RunManager">
