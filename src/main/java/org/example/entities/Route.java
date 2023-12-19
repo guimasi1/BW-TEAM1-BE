@@ -18,11 +18,11 @@ public class Route {
     @Column(name = "arrival_location")
     private String arrivalLocation;
 
-   /* @ManyToMany
+ @ManyToMany
     @JoinTable(name = "vehicles_routes", joinColumns = @JoinColumn(name = "routes_id"),
     inverseJoinColumns = @JoinColumn(name = "vehicles_id"))
     private List<Vehicle> vehicles;
-*/
+
 
 
     @Column(name = "average_travel_time")
@@ -93,7 +93,7 @@ public class Route {
                 "uuid=" + uuid +
                 ", departureLocation='" + departureLocation + '\'' +
                 ", arrivalLocation='" + arrivalLocation + '\'' +
-                //  ", vehicles=" + vehicles +
+                ", vehicles=" + vehicles +
                 ", averageTravelTime=" + averageTravelTime +
                 ", elapsedTime=" + elapsedTime +
                 '}';

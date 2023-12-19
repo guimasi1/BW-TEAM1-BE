@@ -12,14 +12,14 @@ import java.util.UUID;
     @DiscriminatorColumn(name = "vehicle_type")
     public abstract class Vehicle {
         @Id
-        @GeneratedValue(strategy = GenerationType.IDENTITY)
+        @GeneratedValue
         private UUID uuid;
         @Column(name = "type")
         private String type;
         @Column(name = "capacity")
         private int capacity;
 
-        @ElementCollection
+      @ElementCollection
         @CollectionTable(
                 name = "maintenance_records",
                 joinColumns = @JoinColumn(name = "transport_means_id")
@@ -34,7 +34,8 @@ import java.util.UUID;
         private LocalDate serviceEndDate;
 
 
-        @ManyToMany(mappedBy = "vehicle")
+        @ManyToMany
+        @JoinTable(name = "vehicles_ticket", joinColumns = @JoinColumn(name = "vehicle"), inverseJoinColumns = @JoinColumn(name = "tickets"))
         private List<Ticket> tickets;
 
 
