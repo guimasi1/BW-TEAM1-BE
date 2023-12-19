@@ -5,7 +5,10 @@ target/
 
 ### IntelliJ IDEA ###
 
-.idea/
+.idea
+.idea/workspace.xml
+.idea/misc.xml
+.idea/encoding.xml
 *.iws
 *.iml
 *.ipr
