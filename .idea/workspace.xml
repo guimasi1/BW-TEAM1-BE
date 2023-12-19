@@ -4,16 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-
-
-    <list default="true" id="464c2b07-0162-48d5-a3f0-26695a0ec1b0" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/entities/Application.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/entities/Application.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/entities/ControlManagement.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/entities/ControlManagement.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/entities/Pass.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/entities/Pass.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/entities/Ticket.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/entities/Ticket.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/entities/User.java" beforeDir="false" />
-    </list>
-
+    <list default="true" id="464c2b07-0162-48d5-a3f0-26695a0ec1b0" name="Changes" comment="" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -23,8 +14,6 @@
     <option name="RECENT_TEMPLATES">
       <list>
         <option value="Class" />
-
-
       </list>
     </option>
   </component>
@@ -46,7 +35,7 @@
   "keyToString": {
     "RunOnceActivity.OpenProjectViewOnStart": "true",
     "RunOnceActivity.ShowReadmeOnStart": "true",
-    "git-widget-placeholder": "Guido-1",
+    "git-widget-placeholder": "Merging Sarah-User&&Seller",
     "project.structure.last.edited": "Project",
     "project.structure.proportion": "0.0",
     "project.structure.side.proportion": "0.0",
