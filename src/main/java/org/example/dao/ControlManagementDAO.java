@@ -1,12 +1,10 @@
 package org.example.dao;
 
-import org.example.entities.ControlManagement;
-import org.example.entities.Pass;
-import org.example.entities.Ticket;
-import org.example.entities.User;
+import org.example.entities.*;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityTransaction;
+import javax.persistence.Query;
 import javax.persistence.TypedQuery;
 import java.time.LocalDate;
 import java.util.List;
@@ -34,6 +32,11 @@ public class ControlManagementDAO {
 
     public ControlManagement findById(UUID uuid) {
         TypedQuery<ControlManagement> query = em.createQuery("SELECT c FROM ControlManagement c WHERE c.uuid = :id", ControlManagement.class);
+        query.setParameter("id", uuid);
+        return query.getSingleResult();
+    }
+    public Ticket findTicketById(UUID uuid) {
+        TypedQuery<Ticket> query = em.createQuery("SELECT c FROM Ticket c WHERE c.uuid = :id", Ticket.class);
         query.setParameter("id", uuid);
         return query.getSingleResult();
     }
@@ -80,6 +83,18 @@ public class ControlManagementDAO {
     public List<Pass> getAllPass () {
         TypedQuery<Pass> query = em.createQuery("SELECT r FROM Pass r", Pass.class);
         return query.getResultList();
+    }
+
+    public void validateTicket (Ticket ticket, LocalDate today) {
+        EntityTransaction transaction = em.getTransaction();
+        transaction.begin();
+        Query modify = em.createQuery("UPDATE Ticket t SET t.dataDiVidimazione = :today WHERE t = :ticket");
+        // Query modifyVehicleList = em.createQuery("UPDATE Ticket t SET t.vehicles = :vehicle WHERE t = :ticket");
+        modify.setParameter("today", LocalDate.now());
+        modify.setParameter("ticket", ticket);
+        modify.executeUpdate();
+        System.out.println("Biglietto vidimato.");
+        transaction.commit();
     }
 
 
