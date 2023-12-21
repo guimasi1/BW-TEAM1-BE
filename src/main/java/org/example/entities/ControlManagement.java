@@ -10,11 +10,12 @@ import java.util.UUID;
 public abstract class ControlManagement {
         @Id
         @GeneratedValue
-        UUID uuid;
-        double prezzo;
-        LocalDate dataEmissione;
-/*
-        User user;*/
+        private UUID uuid;
+        private double prezzo;
+        private LocalDate dataEmissione;
+
+        @ManyToOne
+        private Seller seller;
 
         public  ControlManagement(){
 
@@ -44,14 +45,13 @@ public abstract class ControlManagement {
             return dataEmissione;
         }
 
-        @Override
-        public String toString() {
-            return "ControlManagement{" +
-                    "uuid=" + uuid +
-                    ", prezzo=" + prezzo +
-                    ", dataEmissione=" + dataEmissione +
-                    // ", user=" + user +
-                    '}';
-        }
+    @Override
+    public String toString() {
+        return "ControlManagement{" +
+                "uuid=" + uuid +
+                ", prezzo=" + prezzo +
+                ", dataEmissione=" + dataEmissione +
+                '}';
     }
+}
 

@@ -1,7 +1,5 @@
 package org.example.entities;
 
-import org.example.dao.SellerType;
-
 import javax.persistence.*;
 import java.util.List;
 import java.util.UUID;
