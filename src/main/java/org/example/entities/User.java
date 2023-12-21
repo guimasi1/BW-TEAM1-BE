@@ -35,6 +35,10 @@ public class User {
         this.age = age;
     }
 
+    public UUID getCard() {
+        return card;
+    }
+
     public String getName() {
         return name;
     }

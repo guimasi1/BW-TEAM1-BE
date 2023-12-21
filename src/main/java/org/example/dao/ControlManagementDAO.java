@@ -3,6 +3,7 @@ package org.example.dao;
 import org.example.entities.ControlManagement;
 import org.example.entities.Pass;
 import org.example.entities.Ticket;
+import org.example.entities.User;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityTransaction;
@@ -74,6 +75,11 @@ public class ControlManagementDAO {
 
         return query.getSingleResult();
 
+    }
+
+    public List<Pass> getAllPass () {
+        TypedQuery<Pass> query = em.createQuery("SELECT r FROM Pass r", Pass.class);
+        return query.getResultList();
     }
 
 

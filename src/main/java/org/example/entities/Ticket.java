@@ -16,9 +16,15 @@ public class Ticket extends ControlManagement{
     @JoinTable(name = "vehicles_ticket", joinColumns = @JoinColumn(name = "tickets"), inverseJoinColumns = @JoinColumn(name = "vehicle"))
     private List <Vehicle> vehicles;
 
+    public Ticket() {}
     public Ticket(LocalDate dataEmissione, double prezzo, LocalDate dataDiVidimazione) {
         super(dataEmissione, prezzo);
         this.dataDiVidimazione = dataDiVidimazione;
+    }
+
+    public Ticket(LocalDate dataEmissione, double prezzo, User user) {
+        super(dataEmissione, prezzo);
+        this.user = user;
     }
 
     public LocalDate getDataDiVidimazione() {
