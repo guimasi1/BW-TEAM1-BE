@@ -29,21 +29,17 @@ public class Application {
         vehicleDao.save(bus1);
 
 
+       vehicleDao.getMaintenanceRecordsByPeriod(LocalDate.of(2023, 1, 1),LocalDate.of(2023, 12, 31)).forEach(System.out::println);;
+        System.out.println(vehicleDao.getMaintenanceRecordsByPeriod(LocalDate.of(2023, 1, 1),LocalDate.of(2023, 12, 31)));
 
-       // VehicleDAO maintenanceRecordDao = new VehicleDAO(em);
-       // List<MaintenanceRecord> maintenanceRecords = maintenanceRecordDao.getMaintenanceRecordsByPeriod(LocalDate.of(2023, 1, 1),LocalDate.of(2023, 12, 31));
 
 
-        System.out.println("Risultati della query per i periodi di manutenzione:");
-        maintenanceRecord.forEach(maintenanceRecord -> {
+     /*   maintenanceRecord.forEach(maintenanceRecord -> {
             System.out.println("Inizio Manutenzione: " + maintenanceRecord.getMaintenanceStartDate() +
                     ", Fine Manutenzione: " + maintenanceRecord.getMaintenanceEndDate());
-        });
+        }); */
 
        // List<Vehicle> vehicle = routesDAO.getVehicleByPeriod(LocalDate.of(2023, 1, 1),LocalDate.of(2023, 12, 31));
-
-
-
 
 
         em.close();

@@ -5,12 +5,7 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="464c2b07-0162-48d5-a3f0-26695a0ec1b0" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/dao/VehicleDAO.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/dao/VehicleDAO.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/org/example/entities/Application.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/entities/Application.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/entities/Bus.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/entities/Bus.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/entities/MaintenanceRecord.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/entities/MaintenanceRecord.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/entities/Vehicle.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/entities/Vehicle.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />

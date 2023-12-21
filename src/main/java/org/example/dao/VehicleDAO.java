@@ -11,7 +11,7 @@ import javax.persistence.EntityTransaction;
 import javax.persistence.TypedQuery;
 import java.util.UUID;
 
-import static org.example.entities.Application.emf;
+
 
 
 public class VehicleDAO {
