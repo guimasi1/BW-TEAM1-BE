@@ -4,30 +4,45 @@ import javax.persistence.Column;
 import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
 import javax.persistence.Table;
+import java.time.LocalDate;
+import java.util.List;
 
-    @Entity
-    @Table(name = "bus")
-    @DiscriminatorValue("Bus")
-    public class Bus extends Vehicle{
-        @Column(name = "cilindrata_motore")
-        private int cilindrataMotore;
+@Entity
+@Table(name = "bus")
+@DiscriminatorValue("Bus")
+public class Bus extends Vehicle{
+    @Column(name = "cilindrata_motore")
+    private int cilindrataMotore;
 
-        public Bus(){
+    // CONSTRUCTORS
+    public Bus(){
+    }
 
-        }
+    public Bus(int capacity, List<MaintenanceRecord> maintenanceRecords, LocalDate serviceStartDate, int cilindrataMotore) {
+        super(capacity, maintenanceRecords, serviceStartDate);
+        this.cilindrataMotore = cilindrataMotore;
+    }
 
-        public int getCilindrataMotore() {
-            return cilindrataMotore;
-        }
+    public Bus(int capacity, LocalDate serviceStartDate, int cilindrataMotore) {
+        super(capacity, serviceStartDate);
+        this.cilindrataMotore = cilindrataMotore;
+    }
 
-        public void setCilindrataMotore(int cilindrataMotore) {
-            this.cilindrataMotore = org.example.entities.Bus.this.cilindrataMotore;
-        }
+    //GETTER AND SETTER
 
-        @Override
+    public int getCilindrataMotore() {
+        return cilindrataMotore;
+    }
+
+    public void setCilindrataMotore(int cilindrataMotore) {
+        this.cilindrataMotore = cilindrataMotore;
+    }
+
+    @Override
         public String toString() {
             return "Bus{" +
                     "cilindrataMotore=" + cilindrataMotore +
+                    " uuid=" + this.getUuid() +
                     '}';
         }
-    }
+}

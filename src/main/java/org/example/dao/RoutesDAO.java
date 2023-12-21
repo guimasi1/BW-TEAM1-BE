@@ -1,6 +1,7 @@
 package org.example.dao;
 
 import org.example.entities.Route;
+import org.example.entities.Vehicle;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityTransaction;
@@ -70,5 +71,14 @@ public class RoutesDAO {
         return query.getResultList();
     }*/
 
+    public List<Double> getElapsedTimes() {
+        TypedQuery<Double> query = em.createQuery("SELECT r.elapsedTime FROM Route r", Double.class);
+        return query.getResultList();
 
+    }
+
+    public List<Route> getAllRoutes () {
+        TypedQuery<Route> query = em.createQuery("SELECT r FROM Route r", Route.class);
+        return query.getResultList();
+    }
 }

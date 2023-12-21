@@ -14,8 +14,6 @@ import java.util.UUID;
         @Id
         @GeneratedValue
         private UUID uuid;
-        @Column(name = "type")
-        private String type;
         @Column(name = "capacity")
         private int capacity;
 
@@ -44,28 +42,25 @@ import java.util.UUID;
                 inverseJoinColumns = @JoinColumn(name = "routes_id"))
         private List<Route> routes;
 
+        @OneToMany(mappedBy = "vehicle")
+        private List<Trip> tripList;
 
-        public Vehicle() {
+        public Vehicle() {}
 
+        public Vehicle(int capacity, List<MaintenanceRecord> maintenanceRecords, LocalDate serviceStartDate) {
+            this.capacity = capacity;
+            this.maintenanceRecords = maintenanceRecords;
+            this.serviceStartDate = serviceStartDate;
         }
-
-        public Vehicle(String type, int capacity, LocalDate maintenanceStartDate, LocalDate maintenanceEndDate, LocalDate serviceStartDate, LocalDate serviceEndDate) {
-            this.type = type;
+        public Vehicle(int capacity, LocalDate serviceStartDate) {
             this.capacity = capacity;
             this.serviceStartDate = serviceStartDate;
-            this.serviceEndDate = serviceEndDate;
         }
 
-        public UUID getUUID() {
+
+
+        public UUID getUuid() {
             return uuid;
-        }
-
-        public String getType() {
-            return type;
-        }
-
-        public void setType(String type) {
-            this.type = type;
         }
 
         public int getCapacity() {
@@ -100,7 +95,6 @@ import java.util.UUID;
             this.serviceEndDate = serviceEndDate;
         }
 
-
         public List<Ticket> getTickets() {
             return tickets;
         }
@@ -117,17 +111,26 @@ import java.util.UUID;
             this.routes = routes;
         }
 
+        public List<Trip> getTripList() {
+            return tripList;
+        }
+
+        public void setTripList(List<Trip> tripList) {
+            this.tripList = tripList;
+        }
+
+
         @Override
         public String toString() {
             return "Vehicle{" +
                     "uuid=" + uuid +
-                    ", type='" + type + '\'' +
                     ", capacity=" + capacity +
                     ", maintenanceRecords=" + maintenanceRecords +
                     ", serviceStartDate=" + serviceStartDate +
                     ", serviceEndDate=" + serviceEndDate +
                     ", tickets=" + tickets +
                     ", routes=" + routes +
+                    ", tripList=" + tripList +
                     '}';
         }
     }

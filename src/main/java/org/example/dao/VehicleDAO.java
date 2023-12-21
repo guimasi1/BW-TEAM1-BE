@@ -1,13 +1,16 @@
 package org.example.dao;
 
+import java.util.List;
 import java.util.UUID;
 
 import org.example.entities.Bus;
+import org.example.entities.Route;
 import org.example.entities.Tram;
 import org.example.entities.Vehicle;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityTransaction;
+import javax.persistence.TypedQuery;
 import java.util.UUID;
 
 
@@ -61,6 +64,11 @@ import java.util.UUID;
                 System.out.println("vehicle deleted");
             }
             else {System.out.println("cannot find the vehicle");}
+        }
+
+        public List<Vehicle> getAllVehicles () {
+            TypedQuery<Vehicle> query = em.createQuery("SELECT v FROM Vehicle v", Vehicle.class);
+            return query.getResultList();
         }
     }
 
