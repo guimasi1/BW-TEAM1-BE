@@ -12,14 +12,13 @@ import java.util.UUID;
     @DiscriminatorColumn(name = "vehicle_type")
     @NamedQueries({
             @NamedQuery(name = "getMaintenanceRecordsByPeriod", query = "SELECT mr FROM Vehicle v JOIN v.maintenanceRecords mr "
-                    + "WHERE v.uuid = :vehicleUUID "
-                    + "AND (mr.maintenanceStartDate BETWEEN :startDate AND :endDate "
+                    + "WHERE (mr.maintenanceStartDate BETWEEN :startDate AND :endDate "
                     + "OR mr.maintenanceEndDate BETWEEN :startDate AND :endDate)"),
-            @NamedQuery(name = "getServiceVehicleByPeriod", query = "SELECT r FROM vehicle v JOIN v.routes r "
-                    + "WHERE v.uuid = :vehicleUUID "
-                    + "AND (r.serviceStartDate BETWEEN :startDate AND :endDate "
-                    + "OR r.serviceEndDate BETWEEN :startDate AND :endDate)")
+            @NamedQuery(name = "getServiceVehicleByPeriod", query = "SELECT v FROM Vehicle v "
+                    + "WHERE (v.serviceStartDate BETWEEN :startDate AND :endDate "
+                    + "OR v.serviceEndDate BETWEEN :startDate AND :endDate)")
     })
+
     public abstract class Vehicle {
         @Id
         @GeneratedValue
