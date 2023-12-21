@@ -24,7 +24,7 @@ public class TicketDAO {
     }
 
     public Ticket findById(UUID uuid) {
-        TypedQuery<Ticket> query = ent.createQuery("SELECT r FROM Route r WHERE r.uuid = :id", Ticket.class);
+        TypedQuery<Ticket> query = ent.createQuery("SELECT t FROM Ticket t WHERE t.uuid = :id", Ticket.class);
         query.setParameter("id", uuid);
         return query.getSingleResult();
     }

@@ -45,6 +45,10 @@ public abstract class ControlManagement {
             return dataEmissione;
         }
 
+        public void setDataEmissione(LocalDate dataEmissione) {
+          this.dataEmissione = dataEmissione;
+        }
+
     @Override
     public String toString() {
         return "ControlManagement{" +

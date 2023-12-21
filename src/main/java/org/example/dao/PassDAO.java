@@ -23,7 +23,7 @@ public class PassDAO {
    }
 
     public Pass findById(UUID uuid) {
-        TypedQuery<Pass> query = en.createQuery("SELECT r FROM Route r WHERE r.uuid = :id", Pass.class);
+        TypedQuery<Pass> query = en.createQuery("SELECT p FROM Pass p WHERE p.uuid = :id", Pass.class);
         query.setParameter("id", uuid);
         return query.getSingleResult();
     }

@@ -7,21 +7,23 @@ import org.example.entities.Ticket;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityTransaction;
 import javax.persistence.TypedQuery;
+import java.nio.file.LinkOption;
+import java.time.LocalDate;
 import java.util.List;
 import java.util.UUID;
 
 public class ControlManagementDAO {
-    private EntityManager ent;
-    public ControlManagementDAO(EntityManager ent){
-       this.ent=ent;
+    private EntityManager em;
+    public ControlManagementDAO(EntityManager em){
+       this.em=em;
     }
 
     public void save(ControlManagement controlManagement){
-        EntityTransaction entityTransaction=ent.getTransaction();
+        EntityTransaction entityTransaction=em.getTransaction();
 
         entityTransaction.begin();
 
-        ent.persist(controlManagement);
+        em.persist(controlManagement);
 
         entityTransaction.commit();
 
@@ -31,19 +33,48 @@ public class ControlManagementDAO {
 
 
     public ControlManagement findById(UUID uuid) {
-        TypedQuery<ControlManagement> query = ent.createQuery("SELECT r FROM Route r WHERE r.uuid = :id", ControlManagement.class);
+        TypedQuery<ControlManagement> query = em.createQuery("SELECT c FROM ControlManagement c WHERE c.uuid = :id", ControlManagement.class);
         query.setParameter("id", uuid);
         return query.getSingleResult();
     }
 
     public void removeById(UUID uuid) {
-        ent.remove(this.findById(uuid));
+        em.remove(this.findById(uuid));
     }
 
 
 
-    public List<Ticket> ticketTracking(){
-        
+    public List<Ticket> ticketTracking(LocalDate inizio , LocalDate fine){
+        TypedQuery<Ticket> query= em.createQuery("SELECT t FROM Ticket t WHERE t.dataEmissione >= :inizio AND  t.dataEmissione <= :fine",Ticket.class);
+        query.setParameter("inizio",inizio);
+        query.setParameter("fine",fine);
+        return query.getResultList();
+    }
+
+    public Long numberTicket(LocalDate inizio,LocalDate fine){
+        TypedQuery<Long> query= em.createQuery("SELECT COUNT(t) FROM Ticket t WHERE t.dataEmissione >= :inizio AND  t.dataEmissione <= :fine",Long.class);
+        query.setParameter("inizio",inizio);
+        query.setParameter("fine",fine);
+
+        return query.getSingleResult();
+
+    }
+
+
+    public List<Pass> passTracking(LocalDate inizio , LocalDate fine){
+        TypedQuery<Pass> query= em.createQuery("SELECT p FROM Pass p WHERE p.dataEmissione >= :inizio AND  p.dataEmissione <= :fine",Pass.class);
+        query.setParameter("inizio",inizio);
+        query.setParameter("fine",fine);
+        return query.getResultList();
+    }
+
+    public Long numberPass(LocalDate inizio,LocalDate fine){
+        TypedQuery<Long> query= em.createQuery("SELECT COUNT(p) FROM Pass p WHERE p.dataEmissione >= :inizio AND  p.dataEmissione <= :fine",Long.class);
+        query.setParameter("inizio",inizio);
+        query.setParameter("fine",fine);
+
+        return query.getSingleResult();
+
     }
 
 
