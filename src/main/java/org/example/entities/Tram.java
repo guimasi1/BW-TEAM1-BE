@@ -4,15 +4,21 @@ import javax.persistence.Column;
 import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
 import javax.persistence.Table;
+import java.time.LocalDate;
 
-    @Entity
+@Entity
     @Table(name = "trams")
     @DiscriminatorValue("Tram")
     public class Tram extends Vehicle{
         @Column(name = "numero_vagoni")
         private int numeroVagoni;
 
-        public Tram(){
+    public Tram(int capacity, LocalDate maintenanceStartDate, LocalDate maintenanceEndDate, LocalDate serviceStartDate, LocalDate serviceEndDate, int numeroVagoni) {
+        super(capacity, maintenanceStartDate, maintenanceEndDate, serviceStartDate, serviceEndDate);
+        this.numeroVagoni = numeroVagoni;
+    }
+
+    public Tram(){
 
         }
 

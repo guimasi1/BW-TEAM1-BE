@@ -14,8 +14,7 @@ import java.util.UUID;
         @Id
         @GeneratedValue
         private UUID uuid;
-        @Column(name = "type")
-        private String type;
+
         @Column(name = "capacity")
         private int capacity;
 
@@ -49,8 +48,8 @@ import java.util.UUID;
 
         }
 
-        public Vehicle(String type, int capacity, LocalDate maintenanceStartDate, LocalDate maintenanceEndDate, LocalDate serviceStartDate, LocalDate serviceEndDate) {
-            this.type = type;
+        public Vehicle(int capacity, LocalDate maintenanceStartDate, LocalDate maintenanceEndDate, LocalDate serviceStartDate, LocalDate serviceEndDate) {
+
             this.capacity = capacity;
             this.serviceStartDate = serviceStartDate;
             this.serviceEndDate = serviceEndDate;
@@ -60,13 +59,6 @@ import java.util.UUID;
             return uuid;
         }
 
-        public String getType() {
-            return type;
-        }
-
-        public void setType(String type) {
-            this.type = type;
-        }
 
         public int getCapacity() {
             return capacity;
@@ -121,7 +113,6 @@ import java.util.UUID;
         public String toString() {
             return "Vehicle{" +
                     "uuid=" + uuid +
-                    ", type='" + type + '\'' +
                     ", capacity=" + capacity +
                     ", maintenanceRecords=" + maintenanceRecords +
                     ", serviceStartDate=" + serviceStartDate +
