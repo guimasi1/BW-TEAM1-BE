@@ -6,9 +6,9 @@ import java.time.LocalDate;
 @Entity
 public class Pass extends ControlManagement{
     @OneToOne
-    User user;
-    Periodicity periodicity;
-    LocalDate dataDiScadenza;
+     private User user;
+     private Periodicity periodicity;
+     private LocalDate dataDiScadenza;
 
     public Pass(LocalDate dataEmissione, double prezzo, Periodicity periodicity, LocalDate dataDiScadenza) {
         super(dataEmissione, prezzo);
@@ -38,10 +38,6 @@ public class Pass extends ControlManagement{
                 "user=" + user +
                 ", periodicity=" + periodicity +
                 ", dataDiScadenza=" + dataDiScadenza +
-                ", uuid=" + uuid +
-                ", prezzo=" + prezzo +
-                ", dataEmissione=" + dataEmissione +
-                ", user=" + user +
                 '}';
     }
 }
