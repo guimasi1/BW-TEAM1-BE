@@ -73,8 +73,8 @@ public class VehicleDAO {
         return query.getResultList();
     }
 
-    public List<Vehicle> getVehiclesByPeriod(LocalDate serviceStartDate, LocalDate serviceEndDate) {
-        TypedQuery<Vehicle> query = em.createNamedQuery("getVehiclesByPeriod", Vehicle.class);
+    public List<Vehicle> getServiceVehicleByPeriod(LocalDate serviceStartDate, LocalDate serviceEndDate) {
+        TypedQuery<Vehicle> query = em.createNamedQuery("getServiceVehicleByPeriod", Vehicle.class);
         query.setParameter("startDate", serviceStartDate);
         query.setParameter("endDate", serviceEndDate);
         return query.getResultList();

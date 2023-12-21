@@ -15,7 +15,7 @@ import java.util.UUID;
                     + "WHERE v.uuid = :vehicleUUID "
                     + "AND (mr.maintenanceStartDate BETWEEN :startDate AND :endDate "
                     + "OR mr.maintenanceEndDate BETWEEN :startDate AND :endDate)"),
-            @NamedQuery(name = "getRoutesByPeriod", query = "SELECT r FROM vehicle v JOIN v.routes r "
+            @NamedQuery(name = "getServiceVehicleByPeriod", query = "SELECT r FROM vehicle v JOIN v.routes r "
                     + "WHERE v.uuid = :vehicleUUID "
                     + "AND (r.serviceStartDate BETWEEN :startDate AND :endDate "
                     + "OR r.serviceEndDate BETWEEN :startDate AND :endDate)")
@@ -42,9 +42,9 @@ import java.util.UUID;
         private LocalDate serviceEndDate;
 
 
-        @ManyToMany(mappedBy = "vehicle")
+        @ManyToMany
+        @JoinTable(name = "vehicles_ticket", joinColumns = @JoinColumn(name = "vehicle"), inverseJoinColumns = @JoinColumn(name = "tickets"))
         private List<Ticket> tickets;
-
 
         @ManyToMany
         @JoinTable(name = "vehicles_routes", joinColumns = @JoinColumn(name = "vehicles_id"),
