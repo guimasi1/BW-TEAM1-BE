@@ -3,7 +3,6 @@ package org.example.entities;
 import javax.persistence.*;
 import java.time.LocalDate;
 import java.util.List;
-import java.util.UUID;
 
 @Entity
 public class Ticket extends ControlManagement{
@@ -12,13 +11,26 @@ public class Ticket extends ControlManagement{
     private User user;
     private LocalDate dataDiVidimazione;
 
+    private boolean annullato;
+
     @ManyToMany
     @JoinTable(name = "vehicles_ticket", joinColumns = @JoinColumn(name = "tickets"), inverseJoinColumns = @JoinColumn(name = "vehicle"))
     private List <Vehicle> vehicles;
 
-    public Ticket(LocalDate dataEmissione, double prezzo, LocalDate dataDiVidimazione) {
+    public Ticket(LocalDate dataEmissione, double prezzo, LocalDate dataDiVidimazione, Seller seller) {
         super(dataEmissione, prezzo);
         this.dataDiVidimazione = dataDiVidimazione;
+        this.annullato = false;
+    }
+
+
+
+    public boolean isAnnullato() {
+        return annullato;
+    }
+
+    public void setAnnullato(boolean annullato) {
+        this.annullato = annullato;
     }
 
     public LocalDate getDataDiVidimazione() {
@@ -30,6 +42,7 @@ public class Ticket extends ControlManagement{
         return "Ticket{" +
                 "user=" + user +
                 ", dataDiVidimazione=" + dataDiVidimazione +
+                ", annullato=" + annullato +
                 ", vehicles=" + vehicles +
                 '}';
     }

@@ -101,6 +101,96 @@ import java.util.UUID;
         }
 
 
+
+
+
+
+
+
+
+//        inizio metodi vincenzo
+
+
+
+        public void vidimaTicket(Ticket ticket) {
+            if (isTicketValid(ticket)) {
+                ticket.setAnnullato(true);
+                // Puoi aggiungere ulteriori logiche qui, ad esempio, salvare il ticket annullato in una lista
+            } else {
+                System.out.println("Ticket timbrato e annullato");
+            }
+        }
+
+
+        private boolean isTicketValid(Ticket ticket) {
+            if (ticket == null || ticket.isAnnullato()) {
+                return false; // Se il ticket è nullo o già annullato, non è valido
+            }
+
+            LocalDate dataVidimazione = ticket.getDataDiVidimazione();
+            if (dataVidimazione == null) {
+                return false; // Se la data di vidimazione è nulla, il ticket non è valido
+            }
+
+            // Alcuni esempi di criteri che potresti considerare:
+            // 1. Verifica se il veicolo associato al ticket è di un tipo specifico
+            // 2. Verifica se il ticket è ancora valido rispetto alla sua data di scadenza
+            // 3. Altri criteri specifici del tuo dominio
+
+            // Esempio: Verifica se il veicolo è in servizio alla data di vidimazione del ticket
+            LocalDate serviceStartDate = getServiceStartDate();
+            LocalDate serviceEndDate = getServiceEndDate();
+
+            if (serviceStartDate == null || serviceEndDate == null) {
+                return false; // Se le date di servizio del veicolo sono nulle, il ticket non è valido
+            }
+
+            // Verifica se la data di vidimazione del ticket è compresa tra la data di inizio e fine del servizio del veicolo
+            return dataVidimazione.isAfter(serviceStartDate) && dataVidimazione.isBefore(serviceEndDate.plusDays(1));
+        }
+
+
+
+
+        public int getNumeroBigliettiVidimati() {
+            if (tickets == null) {
+                return 0;
+            }
+            return (int) tickets.stream().filter(Ticket::isAnnullato).count();
+        }
+
+        public int getNumeroBigliettiVidimati(LocalDate startDate, LocalDate endDate) {
+            if (tickets == null) {
+                return 0;
+            }
+            return (int) tickets.stream()
+                    .filter(ticket -> ticket.isAnnullato() && isTicketVidimatoInRange(ticket, startDate, endDate))
+                    .count();
+        }
+
+        private boolean isTicketVidimatoInRange(Ticket ticket, LocalDate startDate, LocalDate endDate) {
+            LocalDate dataVidimazione = ticket.getDataDiVidimazione();
+            return dataVidimazione.isAfter(startDate) && dataVidimazione.isBefore(endDate.plusDays(1));
+        }
+//fine metodi vincenzo
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
         public List<Ticket> getTickets() {
             return tickets;
         }
