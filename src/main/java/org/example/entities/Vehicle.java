@@ -10,12 +10,20 @@ import java.util.UUID;
     @Table(name = "vehicle")
     @Inheritance(strategy = InheritanceType.JOINED)
     @DiscriminatorColumn(name = "vehicle_type")
+    @NamedQueries({
+            @NamedQuery(name = "getMaintenanceRecordsByPeriod", query = "SELECT mr FROM Vehicle v JOIN v.maintenanceRecords mr "
+                    + "WHERE v.uuid = :vehicleUUID "
+                    + "AND (mr.maintenanceStartDate BETWEEN :startDate AND :endDate "
+                    + "OR mr.maintenanceEndDate BETWEEN :startDate AND :endDate)"),
+            @NamedQuery(name = "getRoutesByPeriod", query = "SELECT r FROM vehicle v JOIN v.routes r "
+                    + "WHERE v.uuid = :vehicleUUID "
+                    + "AND (r.serviceStartDate BETWEEN :startDate AND :endDate "
+                    + "OR r.serviceEndDate BETWEEN :startDate AND :endDate)")
+    })
     public abstract class Vehicle {
         @Id
         @GeneratedValue(strategy = GenerationType.IDENTITY)
         private UUID uuid;
-        @Column(name = "type")
-        private String type;
         @Column(name = "capacity")
         private int capacity;
 
@@ -44,12 +52,12 @@ import java.util.UUID;
         private List<Route> routes;
 
 
+
         public Vehicle() {
 
         }
 
-        public Vehicle(String type, int capacity, LocalDate maintenanceStartDate, LocalDate maintenanceEndDate, LocalDate serviceStartDate, LocalDate serviceEndDate) {
-            this.type = type;
+        public Vehicle(int capacity, LocalDate maintenanceStartDate, LocalDate maintenanceEndDate, LocalDate serviceStartDate, LocalDate serviceEndDate) {
             this.capacity = capacity;
             this.serviceStartDate = serviceStartDate;
             this.serviceEndDate = serviceEndDate;
@@ -59,13 +67,6 @@ import java.util.UUID;
             return uuid;
         }
 
-        public String getType() {
-            return type;
-        }
-
-        public void setType(String type) {
-            this.type = type;
-        }
 
         public int getCapacity() {
             return capacity;
@@ -120,7 +121,6 @@ import java.util.UUID;
         public String toString() {
             return "Vehicle{" +
                     "uuid=" + uuid +
-                    ", type='" + type + '\'' +
                     ", capacity=" + capacity +
                     ", maintenanceRecords=" + maintenanceRecords +
                     ", serviceStartDate=" + serviceStartDate +
