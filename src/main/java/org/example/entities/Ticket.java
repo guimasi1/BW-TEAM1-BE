@@ -44,7 +44,7 @@ public class Ticket extends ControlManagement{
         return "Ticket{" +
                 "user=" + user +
                 ", dataDiVidimazione=" + dataDiVidimazione +
-                ", vehicles=" + vehicles +
+                // ", vehicles=" + vehicles +
                 '}';
     }
 }

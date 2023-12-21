@@ -36,7 +36,8 @@ public class Application {
         // createYourUser(scanner);
         Ticket ticket =  controlManagementDAO.findTicketById(UUID.fromString("6be11cf7-e304-4ed5-aa10-f0c8d1cf2e51"));
         Vehicle vehicle = vehicleDAO.findVehicleByUUID(UUID.fromString("02f1fd41-b515-4427-bd87-c4cc8ce2499b"));
-        controlManagementDAO.validateTicket(ticket,LocalDate.now());
+        // controlManagementDAO.validateTicket(ticket,LocalDate.now(), vehicle);
+        controlManagementDAO.getTicketsByVehicleAndPeriod(vehicle, LocalDate.parse("2020-01-01"), LocalDate.now()).forEach(System.out::println);
     }
 
 

@@ -87,7 +87,7 @@ public class User {
                 ", surname='" + surname + '\'' +
                 ", age=" + age +
                 ", pass=" + pass +
-                ", ticketList=" + ticketList +
+               // ", ticketList=" + ticketList +
                 '}';
     }
 }

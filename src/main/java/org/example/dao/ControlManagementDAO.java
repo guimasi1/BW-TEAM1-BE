@@ -81,21 +81,39 @@ public class ControlManagementDAO {
     }
 
     public List<Pass> getAllPass () {
-        TypedQuery<Pass> query = em.createQuery("SELECT r FROM Pass r", Pass.class);
+        TypedQuery<Pass> query = em.createQuery("SELECT p FROM Pass p", Pass.class);
         return query.getResultList();
     }
 
-    public void validateTicket (Ticket ticket, LocalDate today) {
-        EntityTransaction transaction = em.getTransaction();
-        transaction.begin();
-        Query modify = em.createQuery("UPDATE Ticket t SET t.dataDiVidimazione = :today WHERE t = :ticket");
-        // Query modifyVehicleList = em.createQuery("UPDATE Ticket t SET t.vehicles = :vehicle WHERE t = :ticket");
-        modify.setParameter("today", LocalDate.now());
-        modify.setParameter("ticket", ticket);
-        modify.executeUpdate();
-        System.out.println("Biglietto vidimato.");
-        transaction.commit();
+    public void validateTicket (Ticket ticket, LocalDate today,Vehicle vehicle) {
+        if(ticket.getDataDiVidimazione() == null) {
+            EntityTransaction transaction = em.getTransaction();
+            transaction.begin();
+            Query modify = em.createQuery("UPDATE Ticket t SET t.dataDiVidimazione = :today WHERE t = :ticket");
+            // Query modifyVehicleList = em.createQuery("UPDATE Ticket t SET t.vehicles = :vehicle WHERE t = :ticket");
+            modify.setParameter("today", LocalDate.now());
+            modify.setParameter("ticket", ticket);
+            modify.executeUpdate();
+            ticket.getVehicles().add(vehicle);
+
+            System.out.println("Biglietto vidimato.");
+            transaction.commit();
+        } else System.out.println("Impossibile vidimare il biglietto poiché già utilizzato.");
     }
+
+    public List<Ticket> getTicketsByVehicleAndPeriod(Vehicle vehicle, LocalDate startPeriod, LocalDate endPeriod) {
+        TypedQuery<Ticket> query = em.createQuery(
+                "SELECT t FROM Ticket t JOIN t.vehicles v WHERE v = :vehicle AND" +
+                        " t.dataDiVidimazione >= :startPeriod AND t.dataDiVidimazione <= :endPeriod",
+                Ticket.class
+        );
+        query.setParameter("vehicle", vehicle);
+        query.setParameter("startPeriod", startPeriod);
+        query.setParameter("endPeriod", endPeriod);
+
+        return query.getResultList();
+    }
+
 
 
 }
