@@ -13,12 +13,12 @@ import java.util.UUID;
 public class TicketDAO {
     private EntityManager ent;
 
-    public TicketDAO(EntityManager ent){
-        this.ent=ent;
+    public TicketDAO(EntityManager ent) {
+        this.ent = ent;
     }
 
-    public void save(Ticket biglietto){
-        EntityTransaction en=ent.getTransaction();
+    public void save(Ticket biglietto) {
+        EntityTransaction en = ent.getTransaction();
         en.begin();
         ent.persist(biglietto);
         en.commit();
@@ -35,7 +35,7 @@ public class TicketDAO {
         ent.remove(this.findById(uuid));
     }
 
-    public List<Ticket> getNumberTicketsBySellerType (SellerType sellerType){
+    public List<Ticket> getNumberTicketsBySellerType(SellerType sellerType) {
         TypedQuery<Ticket> getTicketsBySellerType = ent.createNamedQuery("getNumberTicketsBySellerType", Ticket.class);
         getTicketsBySellerType.setParameter("sellerType", sellerType);
         return getTicketsBySellerType.getResultList();
@@ -46,10 +46,10 @@ public class TicketDAO {
         return query.getResultList();
     }
 
-    public List<Ticket> getTicketSeller(SellerType sellerType){
-        TypedQuery<Ticket> getTicket = ent.createQuery("SELECT t FROM Ticket t JOIN Seller s WHERE t.seller.sellerType = :sellerType", Ticket.class);
+    public List<Ticket> getTicketSeller(SellerType sellerType) {
+        TypedQuery<Ticket> getTicket = ent.createQuery("SELECT t FROM Ticket t WHERE t.seller.sellerType = :sellerType", Ticket.class);
         getTicket.setParameter("sellerType", sellerType);
         return getTicket.getResultList();
-    }
 
+    }
 }

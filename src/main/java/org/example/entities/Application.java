@@ -1,9 +1,6 @@
 package org.example.entities;
 
-import org.example.dao.PassDAO;
-import org.example.dao.RoutesDAO;
-import org.example.dao.SellerDAO;
-import org.example.dao.TicketDAO;
+import org.example.dao.*;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
@@ -26,13 +23,18 @@ public class Application {
         SellerDAO sd = new SellerDAO(em);
         Seller seller1 = new Seller("Roma", SellerType.RIVENDITORE, Service.IN_SERVICE);
         sd.saveSeller(seller1);
+        Seller seller2 = sd.findSellerByID(UUID.fromString("0b1b664d-f421-42b5-a1d8-14de61a273c2"));
 
         TicketDAO td = new TicketDAO(em);
-        Ticket ticket1 = new Ticket(LocalDate.of(2023, 12, 15), 5.50, LocalDate.of(2023, 12, 16), seller1);
-        td.save(ticket1);
+        Ticket ticket1 = new Ticket(LocalDate.of(2023, 12, 15), 5.50, LocalDate.of(2023, 12, 16), seller2);
+//        td.save(ticket1);
 //        td.getAllTrips().forEach(System.out::println);
 //        System.out.println(ticket1);
         td.getTicketSeller(SellerType.RIVENDITORE).forEach(System.out::println);
+
+
+//        ControlManagementDAO md = new ControlManagementDAO(em);
+//        md.getTicketSeller(SellerType.RIVENDITORE).forEach(System.out::println);
 
 
 //        PassDAO pd = new PassDAO(em);
