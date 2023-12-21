@@ -11,6 +11,7 @@ public class Seller {
     private UUID id;
     @Column(name = "punto_di_emissione")
     private String puntoDiEmissione;
+    @Enumerated(EnumType.STRING)
     @Column(name = "seller_type")
     private SellerType sellerType;
     @Column(name = "service_type")
@@ -21,7 +22,7 @@ public class Seller {
 
     public Seller() {}
 
-    public Seller(String puntoDiEmissione, SellerType sellerType, Service serviceType, List<ControlManagement> controlManagementList) {
+    public Seller(String puntoDiEmissione, SellerType sellerType, Service serviceType) {
         this.puntoDiEmissione = puntoDiEmissione;
         this.sellerType = sellerType;
         this.serviceType = serviceType;

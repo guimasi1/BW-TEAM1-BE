@@ -1,8 +1,12 @@
 package org.example.entities;
 
 import javax.persistence.Entity;
+import javax.persistence.NamedQuery;
 import javax.persistence.OneToOne;
 import java.time.LocalDate;
+
+@NamedQuery(name = "getNumberPassBySellerType", query = "SELECT a FROM Pass a WHERE a.seller.sellerType = :sellerType")
+@NamedQuery(name = "checkValidityPassByCardNumber", query = "SELECT a FROM Pass a WHERE a.user.card = :cardNumber")
 @Entity
 public class Pass extends ControlManagement{
     @OneToOne
@@ -10,8 +14,8 @@ public class Pass extends ControlManagement{
      private Periodicity periodicity;
      private LocalDate dataDiScadenza;
 
-    public Pass(LocalDate dataEmissione, double prezzo, Periodicity periodicity, LocalDate dataDiScadenza) {
-        super(dataEmissione, prezzo);
+    public Pass(LocalDate dataEmissione, double prezzo, Periodicity periodicity, LocalDate dataDiScadenza, Seller seller) {
+        super(dataEmissione, prezzo ,seller);
         this.periodicity = periodicity;
         this.dataDiScadenza = dataDiScadenza;
     }

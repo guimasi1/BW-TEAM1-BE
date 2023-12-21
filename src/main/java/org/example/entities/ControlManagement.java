@@ -21,15 +21,14 @@ public abstract class ControlManagement {
 
         }
 
-        public ControlManagement(LocalDate dataEmissione,double prezzo) {
+        public ControlManagement(LocalDate dataEmissione,double prezzo, Seller seller) {
             this.dataEmissione = dataEmissione;
             this.prezzo=prezzo;
 
         }
 
 
-
-        public double getPrezzo() {
+    public double getPrezzo() {
             return prezzo;
         }
 
