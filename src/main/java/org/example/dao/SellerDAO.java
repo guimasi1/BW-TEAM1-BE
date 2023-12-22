@@ -1,9 +1,12 @@
 package org.example.dao;
 
 import org.example.entities.Seller;
+import org.example.entities.User;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityTransaction;
+import javax.persistence.TypedQuery;
+import java.util.List;
 import java.util.UUID;
 
 public class SellerDAO {
@@ -34,6 +37,11 @@ public class SellerDAO {
             transiction.commit();
             System.out.println("Il rivenditore con ID " + id + "è stato eliminato correttamente");
         }
+    }
+
+    public List<Seller> getAllSellers () {
+        TypedQuery<Seller> query = em.createQuery("SELECT r FROM Seller r", Seller.class);
+        return query.getResultList();
     }
 }
 

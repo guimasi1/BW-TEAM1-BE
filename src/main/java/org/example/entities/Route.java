@@ -2,7 +2,6 @@ package org.example.entities;
 
 import javax.persistence.*;
 import java.util.List;
-import java.util.Set;
 import java.util.UUID;
 
 @Entity
@@ -18,18 +17,17 @@ public class Route {
     @Column(name = "arrival_location")
     private String arrivalLocation;
 
- @ManyToMany
+    @ManyToMany
     @JoinTable(name = "vehicles_routes", joinColumns = @JoinColumn(name = "routes_id"),
     inverseJoinColumns = @JoinColumn(name = "vehicles_id"))
     private List<Vehicle> vehicles;
 
-
-
     @Column(name = "average_travel_time")
     private Double averageTravelTime;
 
-    @Column(name = "elapsed_time")
-    private Double elapsedTime;
+    @OneToMany(mappedBy = "route")
+    private List<Trip> tripList;
+
 
     // CONSTRUCTORS
 
@@ -38,8 +36,8 @@ public class Route {
         this.departureLocation = departureLocation;
         this.arrivalLocation = arrivalLocation;
         this.averageTravelTime = averageTravelTime;
-        this.elapsedTime = elapsedTime;
     }
+
 
     // GETTER AND SETTER
 
@@ -62,15 +60,13 @@ public class Route {
     public void setArrivalLocation(String arrivalLocation) {
         this.arrivalLocation = arrivalLocation;
     }
-
-    /*
-      public List<Vehicle> getVehicles() {
+    public List<Vehicle> getVehicles() {
           return vehicles;
-      }
+    }
     public void setVehicles(List<Vehicle> vehicles) {
           this.vehicles = vehicles;
-      }
-  */
+    }
+
     public Double getAverageTravelTime() {
         return averageTravelTime;
     }
@@ -79,12 +75,12 @@ public class Route {
         this.averageTravelTime = averageTravelTime;
     }
 
-    public Double getElapsedTime() {
-        return elapsedTime;
+    public List<Trip> getTripList() {
+        return tripList;
     }
 
-    public void setElapsedTime(Double elapsedTime) {
-        this.elapsedTime = elapsedTime;
+    public void setTripList(List<Trip> tripList) {
+        this.tripList = tripList;
     }
 
     @Override
@@ -95,7 +91,7 @@ public class Route {
                 ", arrivalLocation='" + arrivalLocation + '\'' +
                 ", vehicles=" + vehicles +
                 ", averageTravelTime=" + averageTravelTime +
-                ", elapsedTime=" + elapsedTime +
+                ", tripList=" + tripList +
                 '}';
     }
 }

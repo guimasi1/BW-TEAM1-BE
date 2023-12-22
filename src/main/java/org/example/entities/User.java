@@ -29,6 +29,16 @@ public class User {
         this.ticketList = ticketList;
     }
 
+    public User(String name, String surname, int age) {
+        this.name = name;
+        this.surname = surname;
+        this.age = age;
+    }
+
+    public UUID getCard() {
+        return card;
+    }
+
     public String getName() {
         return name;
     }

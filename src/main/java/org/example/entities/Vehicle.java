@@ -52,9 +52,15 @@ import java.util.UUID;
                 inverseJoinColumns = @JoinColumn(name = "routes_id"))
         private List<Route> routes;
 
+        @OneToMany(mappedBy = "vehicle")
+        private List<Trip> tripList;
 
-        public Vehicle() {
+        public Vehicle() {}
 
+        public Vehicle(int capacity, List<MaintenanceRecord> maintenanceRecords, LocalDate serviceStartDate) {
+            this.capacity = capacity;
+            this.maintenanceRecords = maintenanceRecords;
+            this.serviceStartDate = serviceStartDate;
         }
 
         public Vehicle(int capacity, LocalDate maintenanceStartDate, LocalDate maintenanceEndDate, LocalDate serviceStartDate, LocalDate serviceEndDate) {
@@ -64,10 +70,13 @@ import java.util.UUID;
             this.serviceEndDate = serviceEndDate;
         }
 
-        public UUID getUUID() {
+        public Vehicle(int capacity, LocalDate serviceStartDate) {
+            this.capacity = capacity;
+            this.serviceStartDate = serviceStartDate;
+        }
+        public UUID getUuid() {
             return uuid;
         }
-
 
         public int getCapacity() {
             return capacity;
@@ -101,7 +110,6 @@ import java.util.UUID;
             this.serviceEndDate = serviceEndDate;
         }
 
-
         public List<Ticket> getTickets() {
             return tickets;
         }
@@ -118,6 +126,15 @@ import java.util.UUID;
             this.routes = routes;
         }
 
+        public List<Trip> getTripList() {
+            return tripList;
+        }
+
+        public void setTripList(List<Trip> tripList) {
+            this.tripList = tripList;
+        }
+
+
         @Override
         public String toString() {
             return "Vehicle{" +
@@ -128,6 +145,7 @@ import java.util.UUID;
                     ", serviceEndDate=" + serviceEndDate +
                     ", tickets=" + tickets +
                     ", routes=" + routes +
+                    ", tripList=" + tripList +
                     '}';
         }
     }

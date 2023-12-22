@@ -5,35 +5,47 @@ import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
 import javax.persistence.Table;
 import java.time.LocalDate;
+import java.util.List;
 
 @Entity
-    @Table(name = "trams")
-    @DiscriminatorValue("Tram")
-    public class Tram extends Vehicle{
-        @Column(name = "numero_vagoni")
-        private int numeroVagoni;
+@Table(name = "trams")
+@DiscriminatorValue("Tram")
+public class Tram extends Vehicle{
+    @Column(name = "numero_vagoni")
+    private int numeroVagoni;
 
     public Tram(int capacity, LocalDate maintenanceStartDate, LocalDate maintenanceEndDate, LocalDate serviceStartDate, LocalDate serviceEndDate, int numeroVagoni) {
         super(capacity, maintenanceStartDate, maintenanceEndDate, serviceStartDate, serviceEndDate);
         this.numeroVagoni = numeroVagoni;
     }
+    // CONSTRUCTORS
+    public Tram(){}
 
-    public Tram(){
+    public Tram(int capacity, List<MaintenanceRecord> maintenanceRecords, LocalDate serviceStartDate, int numeroVagoni) {
+        super(capacity, maintenanceRecords, serviceStartDate);
+        this.numeroVagoni = numeroVagoni;
+    }
 
-        }
+    public Tram(int capacity, LocalDate serviceStartDate, int numeroVagoni) {
+        super(capacity, serviceStartDate);
+        this.numeroVagoni = numeroVagoni;
+    }
 
-        public int getNumeroVagoni() {
-            return numeroVagoni;
-        }
+    // GETTER AND SETTER
 
-        public void setNumeroVagoni(int numeroVagoni) {
-            this.numeroVagoni = numeroVagoni;
-        }
+    public int getNumeroVagoni() {
+        return numeroVagoni;
+    }
 
-        @Override
+    public void setNumeroVagoni(int numeroVagoni) {
+        this.numeroVagoni = numeroVagoni;
+    }
+
+    @Override
         public String toString() {
             return "Tram{" +
                     "numeroVagoni=" + numeroVagoni +
+                    " uuid=" + this.getUuid() +
                     '}';
         }
-    }
+}
