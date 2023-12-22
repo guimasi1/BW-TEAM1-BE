@@ -16,11 +16,14 @@ public class Pass extends ControlManagement{
      private Periodicity periodicity;
      private LocalDate dataDiScadenza;
 
-    public Pass(LocalDate dataEmissione, double prezzo, Periodicity periodicity, LocalDate dataDiScadenza, Seller seller) {
+    public Pass(LocalDate dataEmissione, double prezzo, Periodicity periodicity, LocalDate dataDiScadenza, Seller seller, User user) {
         super(dataEmissione, prezzo ,seller);
         this.periodicity = periodicity;
         this.dataDiScadenza = dataDiScadenza;
+        this.user = user;
     }
+
+    public Pass(){}
 
     public Periodicity getPeriodicity() {
         return periodicity;

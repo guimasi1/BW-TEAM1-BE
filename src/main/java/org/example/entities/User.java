@@ -13,7 +13,7 @@ public class User {
     private String surname;
     private int age;
     @OneToOne(mappedBy = "user")
-    @JoinColumn(name = "pass_id")
+//    @JoinColumn(name = "pass_id")
     private Pass pass;
     @OneToMany(mappedBy = "user")
     @Column(name = "ticket_list")
@@ -22,12 +22,13 @@ public class User {
     public User() {
     }
 
-    public User(String name, String surname, int age, Pass pass) {
+    public User(String name, String surname, int age) {
         this.name = name;
         this.surname = surname;
         this.age = age;
-        this.pass = pass;
     }
+
+
 
     public String getName() {
         return name;
@@ -76,8 +77,8 @@ public class User {
                 ", name='" + name + '\'' +
                 ", surname='" + surname + '\'' +
                 ", age=" + age +
-                ", pass=" + pass +
-                ", ticketList=" + ticketList +
+//                ", pass=" + pass +
+//                ", ticketList=" + ticketList +
                 '}';
     }
 }
