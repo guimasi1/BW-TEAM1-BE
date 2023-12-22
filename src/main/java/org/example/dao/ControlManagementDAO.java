@@ -36,6 +36,11 @@ public class ControlManagementDAO {
         query.setParameter("id", uuid);
         return query.getSingleResult();
     }
+
+    public Pass findPassByIDTEST (UUID uuid){
+        return em.find(Pass.class, uuid);
+    }
+
     public Ticket findTicketById(UUID uuid) {
         TypedQuery<Ticket> query = em.createQuery("SELECT c FROM Ticket c WHERE c.uuid = :id", Ticket.class);
         query.setParameter("id", uuid);
@@ -135,6 +140,56 @@ public class ControlManagementDAO {
         TypedQuery<Ticket> getTicket = em.createQuery("SELECT t FROM Ticket t WHERE t.seller = :seller", Ticket.class);
         getTicket.setParameter("seller", seller);
         return getTicket.getResultList();
+    }
+
+    public Pass getPassByUser (User user) {
+        TypedQuery<Pass> getPass = em.createQuery("SELECT p FROM Pass p WHERE p.user = :user", Pass.class);
+        getPass.setParameter("user", user);
+        return getPass.getSingleResult();
+    }
+
+    public void getLocalDate(Pass pass) {
+         TypedQuery<LocalDate> getPass = em.createQuery("SELECT p.dataDiScadenza FROM Pass p WHERE p.pass = :pass", LocalDate.class);
+         getPass.setParameter("pass", pass);
+        System.out.println(getPass.getSingleResult());
+
+         /*     if (pass != null) {
+            LocalDate currentDate = LocalDate.now();
+
+            if (pass.getDataDiScadenza().isBefore(currentDate)) {
+                System.out.println("La tessera è scaduta.");
+                return false;
+            } else {
+                System.out.println("La tessera è valida.");
+                return true;
+            }
+        } else {
+            System.out.println("Tessera non trovata.");
+            return false;
+        }*/
+    }
+
+
+    public Pass findPassById(UUID uuid) {
+        TypedQuery<Pass> query = em.createQuery("SELECT p FROM Pass p WHERE c.uuid = :id", Pass.class);
+        query.setParameter("id", uuid);
+        return query.getSingleResult();
+    }
+
+    public List<Pass> getAllPasses() {
+        TypedQuery<Pass> query = em.createQuery("SELECT p FROM Pass p ", Pass.class);
+        return query.getResultList();
+    }
+
+    public void setUserToPass(Pass pass,User user) {
+        EntityTransaction transaction = em.getTransaction();
+        transaction.begin();
+        Query modify = em.createQuery("UPDATE Pass p SET p.user = :user WHERE p = :pass");
+        modify.setParameter("pass", pass);
+        modify.setParameter("user", user);
+        modify.executeUpdate();
+        System.out.println("Pass assegnato.");
+        transaction.commit();
     }
 
 }

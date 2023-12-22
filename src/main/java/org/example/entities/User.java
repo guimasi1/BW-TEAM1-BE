@@ -35,6 +35,13 @@ public class User {
         this.age = age;
     }
 
+    public User(String name, String surname, int age, Pass pass) {
+        this.name = name;
+        this.surname = surname;
+        this.age = age;
+        this.pass = pass;
+    }
+
     public UUID getCard() {
         return card;
     }

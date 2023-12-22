@@ -35,15 +35,14 @@ public class Application {
 
         // travel();
         // test();
-        /*
-        createFakeUsers();
+      /*  createFakeUsers();
         createVehicles();
         createFakeRoutesAndTrips();
         createFakeSellers();
         Lorenza();
-        createFakeTicketsWithSeller();*/
-
-       methodSTART(scanner);
+        createFakeTicketsWithSeller();
+        createUsersWithPasses();*/
+        methodSTART(scanner);
 
        /*Ticket ticket =  controlManagementDAO.findTicketById(UUID.fromString("6be11cf7-e304-4ed5-aa10-f0c8d1cf2e51"));
        Vehicle vehicle = vehicleDAO.findVehicleByUUID(UUID.fromString("02f1fd41-b515-4427-bd87-c4cc8ce2499b"));
@@ -293,7 +292,19 @@ public class Application {
                     System.out.println(controlManagementDAO.numberTicket(choiceTicketPeriod,choiceTicketEndPeriod));
                     break;
                 case 4:
-
+                    userDAO.getAllUsers().forEach(System.out::println);
+                    System.out.println("Scegliere l'user di cui si vuole sapere se l'abbonamento è valido o meno. " +
+                            "Inserire un numero fra 0 e " + (userDAO.getAllUsers().size() -1));
+                    int choiceUser = Integer.parseInt(scanner.nextLine());
+                    User userDatabase = userDAO.getAllUsers().get(choiceUser);
+                    System.out.println(userDatabase);
+                    ControlManagementDAO controlManagementDAO2 = new ControlManagementDAO(em);
+                    // Pass passDatabase = controlManagementDAO2.getAllPasses().get(0);
+                   Pass passDatabase = controlManagementDAO2.findPassByIDTEST(UUID.fromString("6be91ab6-03eb-4c1f-8685-0cab1afc246f"));
+                    // Pass passDatabase = controlManagementDAO2.getPassByUser(userDatabase);
+                    System.out.println(passDatabase);
+                    controlManagementDAO2.getLocalDate(passDatabase);
+                    //controlManagementDAO2.isValid(passDatabase);
                     break;
                 case 5:
                     vehicleDAO.getAllVehicles().forEach(System.out::println);
@@ -363,6 +374,21 @@ public class Application {
             ticketDAO.save(ticket);
         }
 
+
+    }
+
+    public static void createUsersWithPasses() {
+        EntityManager em = emf.createEntityManager();
+        UserDAO userDAO = new UserDAO(em);
+        PassDAO passDAO = new PassDAO(em);
+        ControlManagementDAO controlManagementDAO = new ControlManagementDAO(em);
+        Pass pass = new Pass(LocalDate.now(),30.0,Periodicity.MONTHLY);
+        controlManagementDAO.save(pass);
+        Pass passDatabase = controlManagementDAO.getAllPasses().get(0);
+        User user = new User("Marco", "Colasanti",54, passDatabase);
+        userDAO.saveUser(user);
+        User userDatabase = userDAO.getUserByNameAndSurname("Marco", "Colasanti");
+        controlManagementDAO.setUserToPass(passDatabase, userDatabase);
 
     }
 

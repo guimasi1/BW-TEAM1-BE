@@ -1,12 +1,14 @@
 package org.example.entities;
 
-import javax.persistence.Entity;
-import javax.persistence.OneToOne;
+import javax.persistence.*;
 import java.time.LocalDate;
 @Entity
 public class Pass extends ControlManagement{
     @OneToOne
+    @JoinColumn(name = "user_id")
      private User user;
+
+    @Enumerated(EnumType.STRING)
      private Periodicity periodicity;
      private LocalDate dataDiScadenza;
 
@@ -14,13 +16,35 @@ public class Pass extends ControlManagement{
     public Pass(LocalDate dataEmissione, double prezzo, Periodicity periodicity, LocalDate dataDiScadenza) {
         super(dataEmissione, prezzo);
         this.periodicity = periodicity;
-        this.dataDiScadenza = dataDiScadenza;
+        if(periodicity == Periodicity.MONTHLY) {
+            this.dataDiScadenza = this.getDataEmissione().plusDays(30);
+        } else {
+            this.dataDiScadenza = this.getDataEmissione().plusDays(7);
+
+        }
+     }
+
+    public Pass(LocalDate dataEmissione, double prezzo, Periodicity periodicity) {
+        super(dataEmissione, prezzo);
+        this.periodicity = periodicity;
+        if(periodicity == Periodicity.MONTHLY) {
+            this.dataDiScadenza = this.getDataEmissione().plusDays(30);
+        } else {
+            this.dataDiScadenza = this.getDataEmissione().plusDays(7);
+
+        }
     }
 
     public Pass(LocalDate dataEmissione, double prezzo, User user, Periodicity periodicity) {
         super(dataEmissione, prezzo);
         this.user = user;
         this.periodicity = periodicity;
+        if(periodicity == Periodicity.MONTHLY) {
+            this.dataDiScadenza = this.getDataEmissione().plusDays(30);
+        } else {
+            this.dataDiScadenza = this.getDataEmissione().plusDays(7);
+
+        }
     }
 
     public Periodicity getPeriodicity() {
@@ -42,7 +66,7 @@ public class Pass extends ControlManagement{
     @Override
     public String toString() {
         return "Pass{" +
-                "user=" + user +
+               // "user=" + user +
                 ", periodicity=" + periodicity +
                 ", dataDiScadenza=" + dataDiScadenza +
                 '}';
