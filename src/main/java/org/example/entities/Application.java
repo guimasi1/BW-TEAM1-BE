@@ -303,7 +303,9 @@ public class Application {
                    Pass passDatabase = controlManagementDAO2.findPassByIDTEST(UUID.fromString("6be91ab6-03eb-4c1f-8685-0cab1afc246f"));
                     // Pass passDatabase = controlManagementDAO2.getPassByUser(userDatabase);
                     System.out.println(passDatabase);
+/*
                     controlManagementDAO2.getLocalDate(passDatabase);
+*/
                     //controlManagementDAO2.isValid(passDatabase);
                     break;
                 case 5:
