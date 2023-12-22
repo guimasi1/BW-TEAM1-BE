@@ -46,7 +46,7 @@ public class TicketDAO {
         return query.getResultList();
     }
 
-    public long getTicketSeller(SellerType sellerType) {
+    public Long getTicketSeller(SellerType sellerType) {
         TypedQuery<Long> getTicket = ent.createQuery("SELECT COUNT(t) FROM Ticket t WHERE t.seller.sellerType = :sellerType", Long.class);
         getTicket.setParameter("sellerType", sellerType);
         return getTicket.getSingleResult();

@@ -13,6 +13,7 @@ public class User {
     private String surname;
     private int age;
     @OneToOne(mappedBy = "user")
+    @JoinColumn(name = "pass_id")
     private Pass pass;
     @OneToMany(mappedBy = "user")
     @Column(name = "ticket_list")

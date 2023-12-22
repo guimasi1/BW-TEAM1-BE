@@ -24,7 +24,7 @@ public abstract class ControlManagement {
         public ControlManagement(LocalDate dataEmissione,double prezzo, Seller seller) {
             this.dataEmissione = dataEmissione;
             this.prezzo=prezzo;
-
+            this.seller = seller;
         }
 
 

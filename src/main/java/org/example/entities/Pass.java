@@ -1,6 +1,7 @@
 package org.example.entities;
 
 import javax.persistence.Entity;
+import javax.persistence.JoinColumn;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToOne;
 import java.time.LocalDate;
@@ -10,6 +11,7 @@ import java.time.LocalDate;
 @Entity
 public class Pass extends ControlManagement{
     @OneToOne
+    @JoinColumn(name = "user_id")
      private User user;
      private Periodicity periodicity;
      private LocalDate dataDiScadenza;

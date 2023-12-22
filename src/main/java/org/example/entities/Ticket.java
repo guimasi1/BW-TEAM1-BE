@@ -10,6 +10,7 @@ import java.util.UUID;
 public class Ticket extends ControlManagement{
 
     @ManyToOne
+    @JoinColumn(name = "user_id")
     private User user;
     private LocalDate dataDiVidimazione;
 

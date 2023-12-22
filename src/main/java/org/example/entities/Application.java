@@ -18,33 +18,34 @@ public class Application {
         EntityManager em = emf.createEntityManager();
         Route route1= new Route("casd","sadsa", 22.9,33.9);
         RoutesDAO routesDAO = new RoutesDAO(em);
-        routesDAO.save(route1);
+//        routesDAO.save(route1);
 
         SellerDAO sd = new SellerDAO(em);
         Seller seller1 = new Seller("Roma", SellerType.RIVENDITORE, Service.IN_SERVICE);
 //        sd.saveSeller(seller1);
-        Seller seller2 = sd.findSellerByID(UUID.fromString("0b1b664d-f421-42b5-a1d8-14de61a273c2"));
+//        Seller seller2 = sd.findSellerByID(UUID.fromString("0b1b664d-f421-42b5-a1d8-14de61a273c2"));
 
         TicketDAO td = new TicketDAO(em);
-        Ticket ticket1 = new Ticket(LocalDate.of(2023, 12, 15), 5.50, LocalDate.of(2023, 12, 16), seller2);
+        Ticket ticket1 = new Ticket(LocalDate.of(2023, 12, 15), 5.50, LocalDate.of(2023, 12, 16), seller1);
 //        td.save(ticket1);
 //        td.getAllTrips().forEach(System.out::println);
-//        System.out.println(ticket1);
-        td.getTicketSeller(SellerType.RIVENDITORE);
+////        System.out.println(ticket1);
+        long ticketBySeller = td.getTicketSeller(SellerType.RIVENDITORE);
+        System.out.println(ticketBySeller);
+
 
 
 
         PassDAO pd = new PassDAO(em);
         Pass pass1 = new Pass(LocalDate.of(2022, 12, 15), 105, Periodicity.MONTHLY, LocalDate.of(2023, 01, 15), seller1);
-//        pd.save(pass1);
+        pd.save(pass1);
 
         UserDAO ud = new UserDAO(em);
         User user1 = new User("Sarah", "Guarneri", 26, pass1);
         ud.saveUser(user1);
 
-
-//        boolean isValid = pd.checkValidityPassByCardNumber(UUID.fromString("0b1b664d-f421-42b5-a1d8-14de61a273c2"));
-//        System.out.println(isValid);
+        boolean isValid = pd.checkValidityPassByCardNumber(UUID.fromString("0b1b664d-f421-42b5-a1d8-14de61a273c2"));
+        System.out.println(isValid);
 
 
 
