@@ -60,5 +60,7 @@ public abstract class ControlManagement {
                 ", dataEmissione=" + dataEmissione +
                 '}';
     }
+
+
 }
 
