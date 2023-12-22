@@ -124,85 +124,114 @@ public class Application {
             System.out.println("Inserisca il suo nome.");
             name = scanner.nextLine();
         } while(name == null);
-        do {
-            System.out.println("Inserisca il suo cognome.");
-            surname = scanner.nextLine();
-        } while(surname == null);
+        if(!name.equals("admin")) {
+            do {
+                System.out.println("Inserisca il suo cognome.");
+                surname = scanner.nextLine();
+            } while (surname == null);
 
-        do {
-            System.out.println("Inserisca la sua età.");
-            age = Integer.parseInt(scanner.nextLine());
-        } while(age < 12 || age > 120);
+            do {
+                System.out.println("Inserisca la sua età.");
+                age = Integer.parseInt(scanner.nextLine());
+            } while (age < 12 || age > 120);
 
-        User myUser = new User(name, surname, age);
+            User myUser = new User(name, surname, age);
 
-        ControlManagementDAO controlManagementDAO = new ControlManagementDAO(em);
+            ControlManagementDAO controlManagementDAO = new ControlManagementDAO(em);
 
 
-        userDAO.saveUser(myUser);
-        User userDatabase = userDAO.getUserByNameAndSurname(name, surname);
-        int choicePassOrTicket;
-        do {
-            System.out.println("Benvenuto " + name + " " + surname + "! Vuole acquistare dei biglietti o un abbonamento? " +
-                    "Inserisca 1 per i biglietti, 2 per l'abbonamento.");
-            choicePassOrTicket = Integer.parseInt(scanner.nextLine());
-            if(choicePassOrTicket == 1) {
-                int numberOfTickets;
-                do {
-                    System.out.println("Quanti biglietti vuole acquistare? Inserisca un numero da 1 a 20");
-                    numberOfTickets = Integer.parseInt(scanner.nextLine());
-                } while (numberOfTickets < 1 || numberOfTickets > 20);
-                for (int i = 0; i < numberOfTickets; i++) {
-                    Ticket ticket = new Ticket(LocalDate.now(),1.5, userDatabase );
-                    controlManagementDAO.save(ticket);
+            userDAO.saveUser(myUser);
+            User userDatabase = userDAO.getUserByNameAndSurname(name, surname);
+            int choicePassOrTicket;
+            do {
+                System.out.println("Benvenuto " + name + " " + surname + "! Vuole acquistare dei biglietti o un abbonamento? " +
+                        "Inserisca 1 per i biglietti, 2 per l'abbonamento.");
+                choicePassOrTicket = Integer.parseInt(scanner.nextLine());
+                if (choicePassOrTicket == 1) {
+                    int numberOfTickets;
+                    do {
+                        System.out.println("Quanti biglietti vuole acquistare? Inserisca un numero da 1 a 20");
+                        numberOfTickets = Integer.parseInt(scanner.nextLine());
+                    } while (numberOfTickets < 1 || numberOfTickets > 20);
+                    for (int i = 0; i < numberOfTickets; i++) {
+                        Ticket ticket = new Ticket(LocalDate.now(), 1.5, userDatabase);
+                        controlManagementDAO.save(ticket);
+                    }
+
                 }
+                if (choicePassOrTicket == 2) {
+                    int choicePass;
+                    Periodicity periodicity = null;
+                    double cost = 0;
+                    do {
+                        System.out.println("Prema 1 per un abbonamento settimanale, 2 per quello mensile.");
+                        choicePass = Integer.parseInt(scanner.nextLine());
+                        if (choicePass == 1) {
+                            periodicity = Periodicity.WEEKLY;
+                            cost = 15.0;
+                        }
+                        if (choicePass == 2) {
+                            periodicity = Periodicity.MONTHLY;
+                            cost = 30.0;
+                        }
+                    } while (choicePass < 1 || choicePass > 2);
+                    Pass pass = new Pass(LocalDate.now(), cost, userDatabase, periodicity);
+                    controlManagementDAO.save(pass);
+                }
+            } while (choicePassOrTicket < 1 || choicePassOrTicket > 2);
 
+            if (choicePassOrTicket == 1) {
+                System.out.println("Ecco a lei. Questi sono i suoi biglietti:");
+                controlManagementDAO.getTicketsByUser(myUser).forEach(System.out::println);
             }
-            if(choicePassOrTicket == 2) {
-                int choicePass;
-                Periodicity periodicity = null;
-                double cost = 0;
-                do {
-                    System.out.println("Prema 1 per un abbonamento settimanale, 2 per quello mensile.");
-                    choicePass = Integer.parseInt(scanner.nextLine());
-                    if(choicePass == 1) {
-                        periodicity = Periodicity.WEEKLY;
-                        cost = 15.0;
-                    }
-                    if(choicePass == 2) {
-                        periodicity = Periodicity.MONTHLY;
-                        cost = 30.0;
-                    }
-                } while(choicePass < 1 || choicePass > 2);
-                Pass pass = new Pass(LocalDate.now(),cost,userDatabase,periodicity);
-                controlManagementDAO.save(pass);
-            }
-        } while(choicePassOrTicket < 1 || choicePassOrTicket > 2);
 
-        if (choicePassOrTicket == 1) {
-            System.out.println("Ecco a lei. Questi sono i suoi biglietti:");
-            controlManagementDAO.getTicketsByUser(myUser).forEach(System.out::println);
+            System.out.println("Ecco la lista dei viaggi attualmente disponibili:");
+            tripsDAO.getAllTrips().forEach(System.out::println);
+            int choiceTrip;
+            do {
+                System.out.println("Quale percorso vuole fare? Inserisca un numero da 0 a " + tripsDAO.getAllTrips().size());
+                choiceTrip = Integer.parseInt(scanner.nextLine());
+            } while (choiceTrip < 0 || choiceTrip > tripsDAO.getAllTrips().size());
+
+            Trip currentTrip = tripsDAO.getAllTrips().get(choiceTrip);
+            Vehicle currentVehicleTrip = tripsDAO.getVehicleByTrip(currentTrip);
+            int choiceWhichTicket;
+            do {
+                System.out.println("Questi sono i biglietti che può utilizzare:");
+                controlManagementDAO.getTicketsByUser(myUser).forEach(System.out::println);
+                System.out.println("Quale biglietto vuole vidimare? Prema da 0 a " + (controlManagementDAO.getTicketsByUser(myUser).size() - 1));
+                choiceWhichTicket = Integer.parseInt(scanner.nextLine());
+
+            } while (choiceWhichTicket < 0 || choiceWhichTicket > controlManagementDAO.getTicketsByUser(myUser).size() - 1);
+            controlManagementDAO.validateTicket(controlManagementDAO.getTicketsByUser(myUser).get(choiceWhichTicket), LocalDate.now(), currentVehicleTrip);
         }
+        if(name.equals("admin")) {
+            int choiceViewVehicles;
+            do {
+                System.out.println("Prema 1 - per visualizzare i mezzi di trasporto attualmente in manutenzione, " +
+                        "2 - per quelli in servizio, " +
+                        "3 - per visualizzare i biglietti e gli abbonamenti emessi in un dato periodo di tempo, " +
+                        "4 - per verificare la validità di un abbonamento, " +
+                        "5 - per visualizzare il numero di volte che un mezzo percorre una tratta.");
+                choiceViewVehicles = Integer.parseInt(scanner.nextLine());
+            } while (choiceViewVehicles < 0 || choiceViewVehicles > 5);
+            switch (choiceViewVehicles) {
+                case 1:
+                    break;
+                case 2:
 
-        System.out.println("Ecco la lista dei viaggi attualmente disponibili:");
-        tripsDAO.getAllTrips().forEach(System.out::println);
-        int choiceTrip;
-        do {
-            System.out.println("Quale percorso vuole fare? Inserisca un numero da 0 a " + tripsDAO.getAllTrips().size());
-            choiceTrip = Integer.parseInt(scanner.nextLine());
-        } while(choiceTrip < 0 || choiceTrip > tripsDAO.getAllTrips().size());
+                    break;
+                case 3:
 
-        Trip currentTrip = tripsDAO.getAllTrips().get(choiceTrip);
-        Vehicle currentVehicleTrip = tripsDAO.getVehicleByTrip(currentTrip);
-        int choiceWhichTicket;
-        do {
-            System.out.println("Questi sono i biglietti che può utilizzare:");
-            controlManagementDAO.getTicketsByUser(myUser).forEach(System.out::println);
-            System.out.println("Quale biglietto vuole vidimare? Prema da 0 a " + (controlManagementDAO.getTicketsByUser(myUser).size() -1));
-            choiceWhichTicket = Integer.parseInt(scanner.nextLine());
+                    break;
+                case 4:
 
-        } while (choiceWhichTicket < 0 || choiceWhichTicket > controlManagementDAO.getTicketsByUser(myUser).size() -1);
-         controlManagementDAO.validateTicket(controlManagementDAO.getTicketsByUser(myUser).get(choiceWhichTicket),LocalDate.now(), currentVehicleTrip);
+                    break;
+                case 5:
+
+                    break;
+            }
+        }
         scanner.close();
     }
     public static void test() {
@@ -219,7 +248,6 @@ public class Application {
         SellerDAO sellerDAO = new SellerDAO(em);
         UserDAO userDAO = new UserDAO(em);
         TripsDAO tripsDAO = new TripsDAO(em);
-
         LocalDateTime start = LocalDateTime.of(2023,10,1,10,30,0);
         LocalDateTime end = LocalDateTime.of(2023,10,1,11,30,0);
 
