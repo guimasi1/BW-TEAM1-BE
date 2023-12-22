@@ -13,7 +13,7 @@ public class UserDAO {
         this.em = em;
     }
 
-    public void saveStudent(User user){
+    public void saveUser(User user){
         EntityTransaction transiction = em.getTransaction();
         transiction.begin();
         em.persist(user);

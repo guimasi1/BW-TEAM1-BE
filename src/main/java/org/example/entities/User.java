@@ -21,12 +21,11 @@ public class User {
     public User() {
     }
 
-    public User(String name, String surname, int age, Pass pass, List<Ticket> ticketList) {
+    public User(String name, String surname, int age, Pass pass) {
         this.name = name;
         this.surname = surname;
         this.age = age;
         this.pass = pass;
-        this.ticketList = ticketList;
     }
 
     public String getName() {

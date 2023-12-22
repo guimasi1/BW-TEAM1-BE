@@ -35,21 +35,20 @@ public class TicketDAO {
         ent.remove(this.findById(uuid));
     }
 
-    public List<Ticket> getNumberTicketsBySellerType(SellerType sellerType) {
-        TypedQuery<Ticket> getTicketsBySellerType = ent.createNamedQuery("getNumberTicketsBySellerType", Ticket.class);
-        getTicketsBySellerType.setParameter("sellerType", sellerType);
-        return getTicketsBySellerType.getResultList();
-    }
+//    public List<Ticket> getNumberTicketsBySellerType(SellerType sellerType) {
+//        TypedQuery<Ticket> getTicketsBySellerType = ent.createNamedQuery("getNumberTicketsBySellerType", Ticket.class);
+//        getTicketsBySellerType.setParameter("sellerType", sellerType);
+//        return getTicketsBySellerType.getResultList();
+//    }
 
     public List<Ticket> getAllTrips() {
         TypedQuery<Ticket> query = ent.createQuery("SELECT t FROM Ticket t", Ticket.class);
         return query.getResultList();
     }
 
-    public List<Ticket> getTicketSeller(SellerType sellerType) {
-        TypedQuery<Ticket> getTicket = ent.createQuery("SELECT t FROM Ticket t WHERE t.seller.sellerType = :sellerType", Ticket.class);
+    public long getTicketSeller(SellerType sellerType) {
+        TypedQuery<Long> getTicket = ent.createQuery("SELECT COUNT(t) FROM Ticket t WHERE t.seller.sellerType = :sellerType", Long.class);
         getTicket.setParameter("sellerType", sellerType);
-        return getTicket.getResultList();
-
+        return getTicket.getSingleResult();
     }
 }

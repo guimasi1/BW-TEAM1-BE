@@ -5,7 +5,7 @@ import java.time.LocalDate;
 import java.util.List;
 import java.util.UUID;
 
-@NamedQuery(name = "getNumberTicketsBySellerType", query = "SELECT a FROM Ticket a WHERE a.seller.sellerType = :sellerType")
+//@NamedQuery(name = "getNumberTicketsBySellerType", query = "SELECT a FROM Ticket a WHERE a.seller.sellerType = :sellerType")
 @Entity
 public class Ticket extends ControlManagement{
 

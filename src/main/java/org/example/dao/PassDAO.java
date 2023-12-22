@@ -7,6 +7,7 @@ import org.example.entities.Ticket;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityTransaction;
 import javax.persistence.TypedQuery;
+import java.time.LocalDate;
 import java.util.List;
 import java.util.UUID;
 
@@ -41,10 +42,24 @@ public class PassDAO {
         return getPassBySellerType.getResultList();
     }
 
-    public List<Pass> checkValidityPassByCardNumber (UUID card){
-       TypedQuery<Pass> getPassByCard = en.createQuery("checkValidityPassByCardNumber", Pass.class);
-       getPassByCard.setParameter("cardNumber", card);
-       return getPassByCard.getResultList();
-    }
+    public boolean checkValidityPassByCardNumber (UUID card) {
+        TypedQuery<Pass> getPassByCard = en.createQuery("SELECT a FROM Pass a WHERE a.user.card = :cardNumber", Pass.class);
+        getPassByCard.setParameter("cardNumber", card);
+        List<Pass> passes = getPassByCard.getResultList();
+        if (!passes.isEmpty()) {
+            Pass pass = passes.get(0);
+            LocalDate currentDate = LocalDate.now();
 
+            if (pass.getDataDiScadenza().isBefore(currentDate)) {
+                System.out.println("La tessera è scaduta.");
+                return false;
+            } else {
+                System.out.println("La tessera è valida.");
+                return true;
+            }
+        } else {
+            System.out.println("Tessera non trovata.");
+            return false;
+        }
+    }
 }

@@ -6,7 +6,7 @@ import javax.persistence.OneToOne;
 import java.time.LocalDate;
 
 @NamedQuery(name = "getNumberPassBySellerType", query = "SELECT a FROM Pass a WHERE a.seller.sellerType = :sellerType")
-@NamedQuery(name = "checkValidityPassByCardNumber", query = "SELECT a FROM Pass a WHERE a.user.card = :cardNumber")
+//@NamedQuery(name = "checkValidityPassByCardNumber", query = "SELECT a FROM Pass a WHERE a.user.card = :cardNumber")
 @Entity
 public class Pass extends ControlManagement{
     @OneToOne
