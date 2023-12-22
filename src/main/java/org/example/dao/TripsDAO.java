@@ -65,4 +65,10 @@ public class TripsDAO {
         query.setParameter("trip", trip);
         return query.getSingleResult();
     }
+    public Long getNumberOfTripsByVehicle(Vehicle vehicle, Route route) {
+        TypedQuery<Long> query = em.createQuery("SELECT COUNT(t) FROM Trip t WHERE t.vehicle = :vehicle AND t.route = :route", Long.class);
+        query.setParameter("vehicle", vehicle);
+        query.setParameter("route", route);
+        return query.getSingleResult();
+    }
 }

@@ -35,11 +35,16 @@ public class Application {
 
         // travel();
         // test();
-        // createFakeUsers();
-        // createVehicles();
-        // createFakeRoutesAndTrips();
-        // showAllData(scanner);
-        methodSTART(scanner);
+        /*
+        createFakeUsers();
+        createVehicles();
+        createFakeRoutesAndTrips();
+        createFakeSellers();
+        Lorenza();
+        createFakeTicketsWithSeller();*/
+
+       methodSTART(scanner);
+
        /*Ticket ticket =  controlManagementDAO.findTicketById(UUID.fromString("6be11cf7-e304-4ed5-aa10-f0c8d1cf2e51"));
        Vehicle vehicle = vehicleDAO.findVehicleByUUID(UUID.fromString("02f1fd41-b515-4427-bd87-c4cc8ce2499b"));
         controlManagementDAO.validateTicket(ticket,LocalDate.now(), vehicle);*/
@@ -64,7 +69,7 @@ public class Application {
         EntityManager em = emf.createEntityManager();
         Faker faker = new Faker();
         VehicleDAO vehicleDAO= new VehicleDAO(em);
-        for (int i = 0; i < 20; i++) {
+        for (int i = 0; i < 3; i++) {
             Bus bus = new Bus(faker.number().numberBetween(20,40),LocalDate.parse("2022-10-10"),300);
             Tram tram = new Tram(faker.number().numberBetween(20,40),LocalDate.parse("2022-10-10"),10);
             vehicleDAO.save(bus);
@@ -141,12 +146,17 @@ public class Application {
             } while (age < 12 || age > 120);
 
             User myUser = new User(name, surname, age);
-
-            ControlManagementDAO controlManagementDAO = new ControlManagementDAO(em);
-
-
             userDAO.saveUser(myUser);
             User userDatabase = userDAO.getUserByNameAndSurname(name, surname);
+            ControlManagementDAO controlManagementDAO = new ControlManagementDAO(em);
+            SellerDAO sellerDAO = new SellerDAO(em);
+            sellerDAO.getAllSellers().forEach(System.out::println);
+            System.out.println("Da quale rivenditore vuole acquistare i suoi biglietti o il suo abbonamento? " +
+                    "Inserisca un numero da 0 a 2");
+            int choiceSeller = Integer.parseInt(scanner.nextLine());
+            Seller sellerDatabase = sellerDAO.getAllSellers().get(choiceSeller);
+
+
             int choicePassOrTicket;
             do {
                 System.out.println("Benvenuto " + name + " " + surname + "! Vuole acquistare dei biglietti o un abbonamento? " +
@@ -159,7 +169,8 @@ public class Application {
                         numberOfTickets = Integer.parseInt(scanner.nextLine());
                     } while (numberOfTickets < 1 || numberOfTickets > 20);
                     for (int i = 0; i < numberOfTickets; i++) {
-                        Ticket ticket = new Ticket(LocalDate.now(), 1.5, userDatabase);
+                       // Ticket ticket = new Ticket(LocalDate.now(), 1.5, sellerDatabase,userDatabase);
+                        Ticket ticket = new Ticket(1.5, LocalDate.now(), sellerDatabase,userDatabase);
                         controlManagementDAO.save(ticket);
                     }
 
@@ -217,23 +228,91 @@ public class Application {
                         "2 - per quelli in servizio, " +
                         "3 - per visualizzare i biglietti e gli abbonamenti emessi in un dato periodo di tempo, " +
                         "4 - per verificare la validità di un abbonamento, " +
-                        "5 - per visualizzare il numero di volte che un mezzo percorre una tratta.");
+                        "5 - per visualizzare il numero di volte che un mezzo percorre una tratta, " +
+                        "6 - per visualizzare il numero di biglietti emessi da un rivenditore.");
                 choiceViewVehicles = Integer.parseInt(scanner.nextLine());
-            } while (choiceViewVehicles < 0 || choiceViewVehicles > 5);
+            } while (choiceViewVehicles < 0 || choiceViewVehicles > 6);
             switch (choiceViewVehicles) {
                 case 1:
+                    System.out.println("Inserire la data di inizio manutenzione");
+                    System.out.println("Inserire l'anno");
+                    int yearMaintenance = Integer.parseInt(scanner.nextLine());
+                    System.out.println("Inserire il mese");
+                    int monthMaintenance = Integer.parseInt(scanner.nextLine());
+                    System.out.println("Inserire il giorno");
+                    int dayMaintenance = Integer.parseInt(scanner.nextLine());
+                    LocalDate choiceMaintenancePeriod = LocalDate.of(yearMaintenance,monthMaintenance,dayMaintenance);
+                    System.out.println("Inserire la data di fine manutenzione");
+                    System.out.println("Inserire l'anno");
+                    int year2Maintenance = Integer.parseInt(scanner.nextLine());
+                    System.out.println("Inserire il mese");
+                    int month2Maintenance = Integer.parseInt(scanner.nextLine());
+                    System.out.println("Inserire il giorno");
+                    int day2Maintenance = Integer.parseInt(scanner.nextLine());
+                    LocalDate choiceMaintenanceEndPeriod = LocalDate.of(year2Maintenance,month2Maintenance,day2Maintenance);
+                    vehicleDAO.getMaintenanceRecordsByPeriod(choiceMaintenancePeriod, choiceMaintenanceEndPeriod).forEach(System.out::println);
                     break;
                 case 2:
+                    System.out.println("Inserire la data di inizio servizio");
+                    System.out.println("Inserire l'anno");
+                    int year = Integer.parseInt(scanner.nextLine());
+                    System.out.println("Inserire il mese");
+                    int month = Integer.parseInt(scanner.nextLine());
+                    System.out.println("Inserire il giorno");
+                    int day = Integer.parseInt(scanner.nextLine());
+                    LocalDate choiceStartPeriod = LocalDate.of(year,month,day);
+                    System.out.println("Inserire la data di fine servizio");
+                    System.out.println("Inserire l'anno");
+                    int year2 = Integer.parseInt(scanner.nextLine());
+                    System.out.println("Inserire il mese");
+                    int month2 = Integer.parseInt(scanner.nextLine());
+                    System.out.println("Inserire il giorno");
+                    int day2 = Integer.parseInt(scanner.nextLine());
+                    LocalDate choiceEndPeriod = LocalDate.of(year2,month2,day2);
 
+                    vehicleDAO.getServiceVehicleByPeriod(choiceEndPeriod, choiceStartPeriod).forEach(System.out::println);
                     break;
                 case 3:
-
+                    System.out.println("Inserire la data di inizio emissione");
+                    System.out.println("Inserire l'anno");
+                    int yearTicket = Integer.parseInt(scanner.nextLine());
+                    System.out.println("Inserire il mese");
+                    int monthTicket = Integer.parseInt(scanner.nextLine());
+                    System.out.println("Inserire il giorno");
+                    int dayTicket = Integer.parseInt(scanner.nextLine());
+                    LocalDate choiceTicketPeriod = LocalDate.of(yearTicket,monthTicket,dayTicket);
+                    System.out.println("Inserire la data di fine emissione");
+                    System.out.println("Inserire l'anno");
+                    int year2Ticket = Integer.parseInt(scanner.nextLine());
+                    System.out.println("Inserire il mese");
+                    int month2Ticket = Integer.parseInt(scanner.nextLine());
+                    System.out.println("Inserire il giorno");
+                    int day2Ticket = Integer.parseInt(scanner.nextLine());
+                    LocalDate choiceTicketEndPeriod = LocalDate.of(year2Ticket,month2Ticket,day2Ticket);
+                    ControlManagementDAO controlManagementDAO = new ControlManagementDAO(em);
+                    System.out.println(controlManagementDAO.numberTicket(choiceTicketPeriod,choiceTicketEndPeriod));
                     break;
                 case 4:
 
                     break;
                 case 5:
-
+                    vehicleDAO.getAllVehicles().forEach(System.out::println);
+                    System.out.println("Scegliere il veicolo di cui si vuole sapere il numero di volte che ha pecorso una tratta.");
+                    int choiceVehicle = Integer.parseInt(scanner.nextLine());
+                    routesDAO.getAllRoutes().forEach(System.out::println);
+                    System.out.println("Scegliere la tratta");
+                    int choiceRoute = Integer.parseInt(scanner.nextLine());
+                    System.out.println(tripsDAO.getNumberOfTripsByVehicle(vehicleDAO.getAllVehicles().get(choiceVehicle),
+                            routesDAO.getAllRoutes().get(choiceRoute)));
+                    break;
+                case 6:
+                    ControlManagementDAO controlManagementDAO1 = new ControlManagementDAO(em);
+                    SellerDAO sellerDAO = new SellerDAO(em);
+                    sellerDAO.getAllSellers().forEach(System.out::println);
+                    System.out.println("Di quale rivenditore vuole visualizzare il numero di biglietti o abbonamenti venduti? Inserisca un numero da 0 a 2");
+                    int choiceSellerTickets = Integer.parseInt(scanner.nextLine());
+                    Seller sellerDatabase = sellerDAO.getAllSellers().get(choiceSellerTickets);
+                    controlManagementDAO1.getTicketsBySeller(sellerDatabase).forEach(System.out::println);
                     break;
             }
         }
@@ -266,6 +345,37 @@ public class Application {
         // System.out.println(tripsDAO.getTravelCountByVehicleAndRoute(savedVehicle,savedRoute));
         System.out.println(tripsDAO.getDurationByVehicleAndRoute(savedVehicle,savedRoute));
     }
+
+    public static void createFakeTicketsWithSeller () {
+        EntityManager em = emf.createEntityManager();
+        SellerDAO sellerDAO = new SellerDAO(em);
+        TicketDAO ticketDAO = new TicketDAO(em);
+        UserDAO userDAO = new UserDAO(em);
+        User user = new User("Franco", "Nanni", 80);
+        userDAO.saveUser(user);
+        User userDatabase = userDAO.getUserByNameAndSurname("Franco", "Nanni");
+        Seller seller = new Seller("Tabacchino - 2",SellerType.AUTHORIZED,Service.IN_SERVICE);
+        sellerDAO.saveSeller(seller);
+        Seller sellerDatabase = sellerDAO.getSellerByPlace("Tabacchino - 2");
+        for (int i = 0; i < 10; i++) {
+
+            Ticket ticket = new Ticket(1.5,LocalDate.parse("2023-12-20"),sellerDatabase,userDatabase);
+            ticketDAO.save(ticket);
+        }
+
+
+    }
+
+    public static void createFakeSellers ( ) {
+        EntityManager em = emf.createEntityManager();
+        SellerDAO sellerDAO = new SellerDAO(em);
+        Seller seller = new Seller("Tabacchino", SellerType.AUTHORIZED, Service.IN_SERVICE);
+        Seller seller2 = new Seller("Distributore automatico", SellerType.AUTOMATIC, Service.IN_SERVICE);
+        Seller seller3 = new Seller("Controllore", SellerType.AUTHORIZED, Service.IN_SERVICE);
+        sellerDAO.saveSeller(seller);
+        sellerDAO.saveSeller(seller2);
+        sellerDAO.saveSeller(seller3);
+    }
     public static void createFakeRoutesAndTrips() {
         Faker faker = new Faker();
         EntityManager em = emf.createEntityManager();
@@ -274,13 +384,13 @@ public class Application {
         TripsDAO tripsDAO = new TripsDAO(em);
         Random random = new Random();
 
-        for (int i = 0; i < 40; i++) {
+        for (int i = 0; i < 3; i++) {
             Route route = new Route(faker.address().streetAddress(), faker.address().streetAddress(), random.nextDouble(10, 120));
             routesDAO.save(route);
         }
-        for (int i = 0; i < 40; i++) {
-            Vehicle vehicle = vehicleDAO.getAllVehicles().get(random.nextInt(0,40));
-            Route route = routesDAO.getAllRoutes().get(random.nextInt(0,40));
+        for (int i = 0; i < 3; i++) {
+            Vehicle vehicle = vehicleDAO.getAllVehicles().get(random.nextInt(0,3));
+            Route route = routesDAO.getAllRoutes().get(random.nextInt(0,3));
             Trip trip = new Trip(LocalDateTime.of(2023,12,22, random.nextInt(17,24),
                     random.nextInt(0,60),0),vehicle,route);
             tripsDAO.save(trip);
@@ -296,37 +406,19 @@ public class Application {
 
         Bus bus2 = new Bus(30, LocalDate.of(2020, 1, 1),LocalDate.of(2020, 3, 1), LocalDate.of(2020, 3, 2),LocalDate.of(2023, 12, 21), 40);
         vehicleDAO.save(bus2);
-
-
         vehicleDAO.getMaintenanceRecordsByPeriod(LocalDate.of(2023, 1, 1),LocalDate.of(2023, 12, 31)).forEach(System.out::println);;
-
-
         vehicleDAO.getServiceVehicleByPeriod(LocalDate.of(2024, 1, 1),LocalDate.of(2024, 12, 31)).forEach(System.out::println);;
-
-
         vehicleDAO.getMaintenanceRecordsByPeriod( LocalDate.of(2020, 1, 1),LocalDate.of(2020, 3, 1)).forEach(System.out::println);;
-
-
         vehicleDAO.getServiceVehicleByPeriod(LocalDate.of(2020, 3, 2),LocalDate.of(2023, 12, 21)).forEach(System.out::println);;
-
-
 
         Tram tram1 = new Tram(100, LocalDate.of(2021, 5, 1),LocalDate.of(2021, 7, 1), LocalDate.of(2021, 7, 2),LocalDate.of(2023, 5, 31), 8);
         vehicleDAO.save(tram1);
-
         Tram tram2 = new Tram(200, LocalDate.of(2022, 1, 1),LocalDate.of(2022, 3, 1), LocalDate.of(2022, 3, 2),LocalDate.of(2023, 12, 21), 11);
         vehicleDAO.save(tram2);
-
-
         vehicleDAO.getMaintenanceRecordsByPeriod(LocalDate.of(2021, 5, 1),LocalDate.of(2021, 7, 1)).forEach(System.out::println);;
-
-
         vehicleDAO.getServiceVehicleByPeriod(LocalDate.of(2021, 7, 2),LocalDate.of(2023, 5, 31)).forEach(System.out::println);;
-
-
         vehicleDAO.getMaintenanceRecordsByPeriod( LocalDate.of(2022, 1, 1),LocalDate.of(2022, 3, 1)).forEach(System.out::println);;
-
-
+        System.out.println("eccolo");
         vehicleDAO.getServiceVehicleByPeriod(LocalDate.of(2022, 3, 2),LocalDate.of(2023, 12, 21)).forEach(System.out::println);;
     }
 

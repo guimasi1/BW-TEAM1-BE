@@ -27,6 +27,11 @@ public class Ticket extends ControlManagement{
         this.user = user;
     }
 
+    public Ticket(double prezzo, LocalDate dataEmissione, Seller seller, User user) {
+        super(prezzo, dataEmissione, seller);
+        this.user = user;
+    }
+
     public LocalDate getDataDiVidimazione() {
         return dataDiVidimazione;
     }

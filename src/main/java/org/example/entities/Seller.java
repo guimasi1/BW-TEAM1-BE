@@ -11,8 +11,12 @@ public class Seller {
     private UUID id;
     @Column(name = "punto_di_emissione")
     private String puntoDiEmissione;
+
+    @Enumerated(EnumType.STRING)
     @Column(name = "seller_type")
     private SellerType sellerType;
+    @Enumerated(EnumType.STRING)
+
     @Column(name = "service_type")
     private Service serviceType;
     @OneToMany(mappedBy = "seller")
@@ -26,6 +30,12 @@ public class Seller {
         this.sellerType = sellerType;
         this.serviceType = serviceType;
         this.controlManagementList = controlManagementList;
+    }
+
+    public Seller(String puntoDiEmissione, SellerType sellerType, Service serviceType) {
+        this.puntoDiEmissione = puntoDiEmissione;
+        this.sellerType = sellerType;
+        this.serviceType = serviceType;
     }
 
     public UUID getId() {

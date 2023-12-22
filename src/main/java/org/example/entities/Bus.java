@@ -49,6 +49,8 @@ public class Bus extends Vehicle{
             return "Bus{" +
                     "cilindrataMotore=" + cilindrataMotore +
                     " uuid=" + this.getUuid() +
+                    " data di inizio servizio " + this.getServiceStartDate() +
+                    " data di fine servizio " + this.getServiceEndDate() +
                     '}';
         }
 }

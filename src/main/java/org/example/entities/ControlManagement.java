@@ -29,6 +29,12 @@ public abstract class ControlManagement {
 
     }
 
+    public ControlManagement(double prezzo, LocalDate dataEmissione, Seller seller) {
+        this.prezzo = prezzo;
+        this.dataEmissione = dataEmissione;
+        this.seller = seller;
+    }
+
     // GETTER AND SETTER
     public double getPrezzo() {
         return prezzo;

@@ -21,6 +21,7 @@ public class SellerDAO {
         transiction.begin();
         em.persist(seller);
         transiction.commit();
+        System.out.println("Seller saved.");
     }
 
     public Seller findSellerByID(UUID id){
@@ -42,6 +43,11 @@ public class SellerDAO {
     public List<Seller> getAllSellers () {
         TypedQuery<Seller> query = em.createQuery("SELECT r FROM Seller r", Seller.class);
         return query.getResultList();
+    }
+    public Seller getSellerByPlace (String place) {
+        TypedQuery<Seller> query = em.createQuery("SELECT r FROM Seller r WHERE r.puntoDiEmissione = :place", Seller.class);
+        query.setParameter("place", place);
+        return query.getSingleResult();
     }
 }
 

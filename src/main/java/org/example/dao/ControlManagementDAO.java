@@ -126,7 +126,15 @@ public class ControlManagementDAO {
 
         return query.getResultList();
     }
-
-
+        public List<Ticket> getTicketSeller(SellerType sellerType){
+        TypedQuery<Ticket> getTicket = em.createQuery("SELECT t FROM Ticket t WHERE t.seller.sellerType = :sellerType", Ticket.class);
+        getTicket.setParameter("sellerType", sellerType);
+        return getTicket.getResultList();
+    }
+    public List<Ticket> getTicketsBySeller(Seller seller){
+        TypedQuery<Ticket> getTicket = em.createQuery("SELECT t FROM Ticket t WHERE t.seller = :seller", Ticket.class);
+        getTicket.setParameter("seller", seller);
+        return getTicket.getResultList();
+    }
 
 }
