@@ -25,7 +25,7 @@ public class Application {
 
         ControlManagementDAO controlManagementDAO=new ControlManagementDAO(em);
 
-        TicketDAO ticketDAO=new TicketDAO(em);
+        //TicketDAO ticketDAO=new TicketDAO(em);
 
         controlManagementDAO.save(ticket);
 
