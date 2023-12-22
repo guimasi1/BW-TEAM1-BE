@@ -26,7 +26,6 @@ public class Seller {
         this.puntoDiEmissione = puntoDiEmissione;
         this.sellerType = sellerType;
         this.serviceType = serviceType;
-        this.controlManagementList = controlManagementList;
     }
 
     public UUID getId() {

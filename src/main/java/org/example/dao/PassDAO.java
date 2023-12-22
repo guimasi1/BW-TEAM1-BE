@@ -42,15 +42,35 @@ public class PassDAO {
         return getPassBySellerType.getResultList();
     }
 
+//    public boolean checkValidityPassByCardNumber (UUID card) {
+//        TypedQuery<Pass> getPassByCard = en.createQuery("SELECT a FROM Pass a WHERE a.user.card = :cardNumber", Pass.class);
+//        getPassByCard.setParameter("cardNumber", card);
+//        List<Pass> passes = getPassByCard.getResultList();
+//        if (passes.get(0) != null) {
+//            Pass pass = passes.get(0);
+//            LocalDate currentDate = LocalDate.now();
+//
+//            if (pass.getDataDiScadenza().isBefore(currentDate)) {
+//                System.out.println("La tessera è scaduta.");
+//                return false;
+//            } else {
+//                System.out.println("La tessera è valida.");
+//                return true;
+//            }
+//        } else {
+//            System.out.println("Tessera non trovata.");
+//            return false;
+//        }
+//    }
+
     public boolean checkValidityPassByCardNumber (UUID card) {
         TypedQuery<Pass> getPassByCard = en.createQuery("SELECT a FROM Pass a WHERE a.user.card = :cardNumber", Pass.class);
         getPassByCard.setParameter("cardNumber", card);
-        List<Pass> passes = getPassByCard.getResultList();
-        if (!passes.isEmpty()) {
-            Pass pass = passes.get(0);
+        Pass passes = getPassByCard.getSingleResult();
+        if (passes != null) {
             LocalDate currentDate = LocalDate.now();
 
-            if (pass.getDataDiScadenza().isBefore(currentDate)) {
+            if (passes.getDataDiScadenza().isBefore(currentDate)) {
                 System.out.println("La tessera è scaduta.");
                 return false;
             } else {

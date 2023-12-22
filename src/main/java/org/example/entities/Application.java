@@ -20,10 +20,16 @@ public class Application {
         RoutesDAO routesDAO = new RoutesDAO(em);
 //        routesDAO.save(route1);
 
+
+
         SellerDAO sd = new SellerDAO(em);
         Seller seller1 = new Seller("Roma", SellerType.RIVENDITORE, Service.IN_SERVICE);
-//        sd.saveSeller(seller1);
+        sd.saveSeller(seller1);
 //        Seller seller2 = sd.findSellerByID(UUID.fromString("0b1b664d-f421-42b5-a1d8-14de61a273c2"));
+
+        PassDAO pd = new PassDAO(em);
+        Pass pass1 = new Pass(LocalDate.of(2022, 12, 15), 105, Periodicity.MONTHLY, LocalDate.of(2023, 01, 15), seller1);
+        pd.save(pass1);
 
         TicketDAO td = new TicketDAO(em);
         Ticket ticket1 = new Ticket(LocalDate.of(2023, 12, 15), 5.50, LocalDate.of(2023, 12, 16), seller1);
@@ -36,15 +42,13 @@ public class Application {
 
 
 
-        PassDAO pd = new PassDAO(em);
-        Pass pass1 = new Pass(LocalDate.of(2022, 12, 15), 105, Periodicity.MONTHLY, LocalDate.of(2023, 01, 15), seller1);
-        pd.save(pass1);
+
 
         UserDAO ud = new UserDAO(em);
         User user1 = new User("Sarah", "Guarneri", 26, pass1);
-        ud.saveUser(user1);
+//        ud.saveUser(user1);
 
-        boolean isValid = pd.checkValidityPassByCardNumber(UUID.fromString("0b1b664d-f421-42b5-a1d8-14de61a273c2"));
+        boolean isValid = pd.checkValidityPassByCardNumber(UUID.fromString("9b8cb22d-c904-41ef-920f-ff337a89b7e9"));
         System.out.println(isValid);
 
 
