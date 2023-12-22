@@ -59,4 +59,10 @@ public class TripsDAO {
 
         return query.getResultList();
     }
+
+    public Vehicle getVehicleByTrip(Trip trip) {
+        TypedQuery<Vehicle> query = em.createQuery("SELECT t.vehicle FROM Trip t WHERE t = :trip", Vehicle.class);
+        query.setParameter("trip", trip);
+        return query.getSingleResult();
+    }
 }

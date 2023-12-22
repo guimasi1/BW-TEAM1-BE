@@ -32,6 +32,12 @@ public class Trip {
         this.duration = Duration.between(this.arrivalTime, this.startTime);
     }
 
+    public Trip(LocalDateTime startTime, Vehicle vehicle, Route route) {
+        this.startTime = startTime;
+        this.vehicle = vehicle;
+        this.route = route;
+    }
+
     public UUID getUuid() {
         return uuid;
     }

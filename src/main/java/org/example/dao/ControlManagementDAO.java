@@ -7,6 +7,7 @@ import javax.persistence.EntityTransaction;
 import javax.persistence.Query;
 import javax.persistence.TypedQuery;
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
@@ -25,7 +26,7 @@ public class ControlManagementDAO {
 
         entityTransaction.commit();
 
-        System.out.println("sistema avviato");
+        System.out.println("Elemento acquistato.");
 
     }
 
@@ -94,6 +95,8 @@ public class ControlManagementDAO {
             modify.setParameter("today", LocalDate.now());
             modify.setParameter("ticket", ticket);
             modify.executeUpdate();
+            List<Vehicle> vehiclesToAdd = new ArrayList<>();
+            ticket.setVehicles(vehiclesToAdd);
             ticket.getVehicles().add(vehicle);
 
             System.out.println("Biglietto vidimato.");
@@ -110,6 +113,16 @@ public class ControlManagementDAO {
         query.setParameter("vehicle", vehicle);
         query.setParameter("startPeriod", startPeriod);
         query.setParameter("endPeriod", endPeriod);
+
+        return query.getResultList();
+    }
+
+    public List<Ticket> getTicketsByUser (User user) {
+        TypedQuery<Ticket> query = em.createQuery(
+                "SELECT t FROM Ticket t JOIN t.user u WHERE u = :user",
+                Ticket.class
+        );
+        query.setParameter("user", user);
 
         return query.getResultList();
     }

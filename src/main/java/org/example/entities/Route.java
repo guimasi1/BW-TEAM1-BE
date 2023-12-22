@@ -32,7 +32,7 @@ public class Route {
     // CONSTRUCTORS
 
     public Route() {}
-    public Route(String departureLocation, String arrivalLocation, Double averageTravelTime, Double elapsedTime) {
+    public Route(String departureLocation, String arrivalLocation, Double averageTravelTime) {
         this.departureLocation = departureLocation;
         this.arrivalLocation = arrivalLocation;
         this.averageTravelTime = averageTravelTime;

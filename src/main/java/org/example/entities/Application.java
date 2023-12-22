@@ -1,6 +1,7 @@
 package org.example.entities;
 
 import com.github.javafaker.Faker;
+import net.bytebuddy.asm.Advice;
 import org.example.dao.*;
 
 import javax.persistence.EntityManager;
@@ -10,6 +11,7 @@ import javax.persistence.criteria.CriteriaBuilder;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.Period;
+import java.util.Random;
 import java.util.Scanner;
 import java.util.UUID;
 
@@ -21,7 +23,7 @@ public class Application {
         Faker faker = new Faker();
         Scanner scanner = new Scanner(System.in);
         EntityManager em = emf.createEntityManager();
-        Route route1= new Route("asdasd","aaaaa", 222.0,333.0);
+//        Route route1= new Route("asdasd","aaaaa", 222.0,333.0);
         RoutesDAO routesDAO = new RoutesDAO(em);
         VehicleDAO vehicleDAO = new VehicleDAO(em);
         ControlManagementDAO controlManagementDAO = new ControlManagementDAO(em);
@@ -29,15 +31,19 @@ public class Application {
         UserDAO userDAO = new UserDAO(em);
         TripsDAO tripsDAO = new TripsDAO(em);
 
+        // travel();
         // test();
         // createFakeUsers();
         // createVehicles();
+        // createFakeRoutesAndTrips();
         // showAllData(scanner);
-        // createYourUser(scanner);
-        Ticket ticket =  controlManagementDAO.findTicketById(UUID.fromString("6be11cf7-e304-4ed5-aa10-f0c8d1cf2e51"));
-        Vehicle vehicle = vehicleDAO.findVehicleByUUID(UUID.fromString("02f1fd41-b515-4427-bd87-c4cc8ce2499b"));
-        // controlManagementDAO.validateTicket(ticket,LocalDate.now(), vehicle);
-        controlManagementDAO.getTicketsByVehicleAndPeriod(vehicle, LocalDate.parse("2020-01-01"), LocalDate.now()).forEach(System.out::println);
+        methodSTART(scanner);
+       /*Ticket ticket =  controlManagementDAO.findTicketById(UUID.fromString("6be11cf7-e304-4ed5-aa10-f0c8d1cf2e51"));
+       Vehicle vehicle = vehicleDAO.findVehicleByUUID(UUID.fromString("02f1fd41-b515-4427-bd87-c4cc8ce2499b"));
+        controlManagementDAO.validateTicket(ticket,LocalDate.now(), vehicle);*/
+//        controlManagementDAO.getTicketsByVehicleAndPeriod(vehicle, LocalDate.parse("2020-01-01"), LocalDate.now()).forEach(System.out::println);
+        em.close();
+        emf.close();
     }
 
 
@@ -103,7 +109,14 @@ public class Application {
 
     }
 
-    public static void createYourUser(Scanner scanner) {
+    public static void methodSTART(Scanner scanner) {
+        EntityManager em = emf.createEntityManager();
+        VehicleDAO vehicleDAO = new VehicleDAO(em);
+        UserDAO userDAO = new UserDAO(em);
+        TripsDAO tripsDAO = new TripsDAO(em);
+        RoutesDAO routesDAO = new RoutesDAO(em);
+
+
         String name = null;
         String surname = null;
         int age = 11;
@@ -123,9 +136,8 @@ public class Application {
 
         User myUser = new User(name, surname, age);
 
-        EntityManager em = emf.createEntityManager();
-        UserDAO userDAO = new UserDAO(em);
         ControlManagementDAO controlManagementDAO = new ControlManagementDAO(em);
+
 
         userDAO.saveUser(myUser);
         User userDatabase = userDAO.getUserByNameAndSurname(name, surname);
@@ -135,8 +147,16 @@ public class Application {
                     "Inserisca 1 per i biglietti, 2 per l'abbonamento.");
             choicePassOrTicket = Integer.parseInt(scanner.nextLine());
             if(choicePassOrTicket == 1) {
-                Ticket ticket = new Ticket(LocalDate.now(),1.5, userDatabase );
-                controlManagementDAO.save(ticket);
+                int numberOfTickets;
+                do {
+                    System.out.println("Quanti biglietti vuole acquistare? Inserisca un numero da 1 a 20");
+                    numberOfTickets = Integer.parseInt(scanner.nextLine());
+                } while (numberOfTickets < 1 || numberOfTickets > 20);
+                for (int i = 0; i < numberOfTickets; i++) {
+                    Ticket ticket = new Ticket(LocalDate.now(),1.5, userDatabase );
+                    controlManagementDAO.save(ticket);
+                }
+
             }
             if(choicePassOrTicket == 2) {
                 int choicePass;
@@ -159,9 +179,32 @@ public class Application {
             }
         } while(choicePassOrTicket < 1 || choicePassOrTicket > 2);
 
-        System.out.println("Ecco a lei");
-    }
+        if (choicePassOrTicket == 1) {
+            System.out.println("Ecco a lei. Questi sono i suoi biglietti:");
+            controlManagementDAO.getTicketsByUser(myUser).forEach(System.out::println);
+        }
 
+        System.out.println("Ecco la lista dei viaggi attualmente disponibili:");
+        tripsDAO.getAllTrips().forEach(System.out::println);
+        int choiceTrip;
+        do {
+            System.out.println("Quale percorso vuole fare? Inserisca un numero da 0 a " + tripsDAO.getAllTrips().size());
+            choiceTrip = Integer.parseInt(scanner.nextLine());
+        } while(choiceTrip < 0 || choiceTrip > tripsDAO.getAllTrips().size());
+
+        Trip currentTrip = tripsDAO.getAllTrips().get(choiceTrip);
+        Vehicle currentVehicleTrip = tripsDAO.getVehicleByTrip(currentTrip);
+        int choiceWhichTicket;
+        do {
+            System.out.println("Questi sono i biglietti che può utilizzare:");
+            controlManagementDAO.getTicketsByUser(myUser).forEach(System.out::println);
+            System.out.println("Quale biglietto vuole vidimare? Prema da 0 a " + (controlManagementDAO.getTicketsByUser(myUser).size() -1));
+            choiceWhichTicket = Integer.parseInt(scanner.nextLine());
+
+        } while (choiceWhichTicket < 0 || choiceWhichTicket > controlManagementDAO.getTicketsByUser(myUser).size() -1);
+         controlManagementDAO.validateTicket(controlManagementDAO.getTicketsByUser(myUser).get(choiceWhichTicket),LocalDate.now(), currentVehicleTrip);
+        scanner.close();
+    }
     public static void test() {
         EntityManager em = emf.createEntityManager();
 
@@ -190,6 +233,25 @@ public class Application {
         // System.out.println(tripsDAO.getTravelCountByVehicleAndRoute(savedVehicle,savedRoute));
         System.out.println(tripsDAO.getDurationByVehicleAndRoute(savedVehicle,savedRoute));
     }
+    public static void createFakeRoutesAndTrips() {
+        Faker faker = new Faker();
+        EntityManager em = emf.createEntityManager();
+        RoutesDAO routesDAO = new RoutesDAO(em);
+        VehicleDAO vehicleDAO = new VehicleDAO(em);
+        TripsDAO tripsDAO = new TripsDAO(em);
+        Random random = new Random();
 
+        for (int i = 0; i < 40; i++) {
+            Route route = new Route(faker.address().streetAddress(),faker.address().streetAddress(), random.nextDouble(10,120));
+            routesDAO.save(route);
+        }
 
+        for (int i = 0; i < 40; i++) {
+            Vehicle vehicle = vehicleDAO.getAllVehicles().get(random.nextInt(0,40));
+            Route route = routesDAO.getAllRoutes().get(random.nextInt(0,40));
+            Trip trip = new Trip(LocalDateTime.of(2023,12,22, random.nextInt(17,24),
+                    random.nextInt(0,60),0),vehicle,route);
+            tripsDAO.save(trip);
+        }
+    }
 }
