@@ -1,12 +1,14 @@
 package org.example.entities;
 
+import org.example.dao.RoutesDAO;
+import org.example.dao.VehicleDAO;
 import com.github.javafaker.Faker;
 import net.bytebuddy.asm.Advice;
 import org.example.dao.*;
-
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
+import java.time.LocalDate;
 import javax.persistence.criteria.CriteriaBuilder;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -107,6 +109,9 @@ public class Application {
 
         } while(choice <-1 || choice >6 );
 
+
+        em.close();
+        emf.close();
     }
 
     public static void methodSTART(Scanner scanner) {
@@ -270,10 +275,9 @@ public class Application {
         Random random = new Random();
 
         for (int i = 0; i < 40; i++) {
-            Route route = new Route(faker.address().streetAddress(),faker.address().streetAddress(), random.nextDouble(10,120));
+            Route route = new Route(faker.address().streetAddress(), faker.address().streetAddress(), random.nextDouble(10, 120));
             routesDAO.save(route);
         }
-
         for (int i = 0; i < 40; i++) {
             Vehicle vehicle = vehicleDAO.getAllVehicles().get(random.nextInt(0,40));
             Route route = routesDAO.getAllRoutes().get(random.nextInt(0,40));
@@ -282,4 +286,49 @@ public class Application {
             tripsDAO.save(trip);
         }
     }
+    public static void Lorenza(){
+
+        EntityManager em = emf.createEntityManager();
+        VehicleDAO vehicleDAO = new VehicleDAO(em);
+
+        Bus bus1 = new Bus(50, LocalDate.of(2023, 1, 1),LocalDate.of(2023, 12, 31), LocalDate.of(2024, 1, 1),LocalDate.of(2024, 12, 31), 45);
+        vehicleDAO.save(bus1);
+
+        Bus bus2 = new Bus(30, LocalDate.of(2020, 1, 1),LocalDate.of(2020, 3, 1), LocalDate.of(2020, 3, 2),LocalDate.of(2023, 12, 21), 40);
+        vehicleDAO.save(bus2);
+
+
+        vehicleDAO.getMaintenanceRecordsByPeriod(LocalDate.of(2023, 1, 1),LocalDate.of(2023, 12, 31)).forEach(System.out::println);;
+
+
+        vehicleDAO.getServiceVehicleByPeriod(LocalDate.of(2024, 1, 1),LocalDate.of(2024, 12, 31)).forEach(System.out::println);;
+
+
+        vehicleDAO.getMaintenanceRecordsByPeriod( LocalDate.of(2020, 1, 1),LocalDate.of(2020, 3, 1)).forEach(System.out::println);;
+
+
+        vehicleDAO.getServiceVehicleByPeriod(LocalDate.of(2020, 3, 2),LocalDate.of(2023, 12, 21)).forEach(System.out::println);;
+
+
+
+        Tram tram1 = new Tram(100, LocalDate.of(2021, 5, 1),LocalDate.of(2021, 7, 1), LocalDate.of(2021, 7, 2),LocalDate.of(2023, 5, 31), 8);
+        vehicleDAO.save(tram1);
+
+        Tram tram2 = new Tram(200, LocalDate.of(2022, 1, 1),LocalDate.of(2022, 3, 1), LocalDate.of(2022, 3, 2),LocalDate.of(2023, 12, 21), 11);
+        vehicleDAO.save(tram2);
+
+
+        vehicleDAO.getMaintenanceRecordsByPeriod(LocalDate.of(2021, 5, 1),LocalDate.of(2021, 7, 1)).forEach(System.out::println);;
+
+
+        vehicleDAO.getServiceVehicleByPeriod(LocalDate.of(2021, 7, 2),LocalDate.of(2023, 5, 31)).forEach(System.out::println);;
+
+
+        vehicleDAO.getMaintenanceRecordsByPeriod( LocalDate.of(2022, 1, 1),LocalDate.of(2022, 3, 1)).forEach(System.out::println);;
+
+
+        vehicleDAO.getServiceVehicleByPeriod(LocalDate.of(2022, 3, 2),LocalDate.of(2023, 12, 21)).forEach(System.out::println);;
+    }
+
+
 }

@@ -7,6 +7,7 @@ import javax.persistence.Table;
 import java.time.LocalDate;
 import java.util.List;
 
+
 @Entity
 @Table(name = "bus")
 @DiscriminatorValue("Bus")
@@ -15,7 +16,12 @@ public class Bus extends Vehicle{
     private int cilindrataMotore;
 
     // CONSTRUCTORS
-    public Bus(){
+    public Bus(){}
+
+
+    public Bus(int capacity, LocalDate maintenanceStartDate, LocalDate maintenanceEndDate, LocalDate serviceStartDate, LocalDate serviceEndDate, int cilindrataMotore) {
+        super(capacity, maintenanceStartDate, maintenanceEndDate, serviceStartDate, serviceEndDate);
+        this.cilindrataMotore = cilindrataMotore;
     }
 
     public Bus(int capacity, List<MaintenanceRecord> maintenanceRecords, LocalDate serviceStartDate, int cilindrataMotore) {

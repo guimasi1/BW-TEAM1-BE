@@ -1,13 +1,13 @@
 package org.example.dao;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.UUID;
-
 import org.example.entities.Bus;
+import org.example.entities.MaintenanceRecord;
 import org.example.entities.Route;
 import org.example.entities.Tram;
 import org.example.entities.Vehicle;
-
 import javax.persistence.EntityManager;
 import javax.persistence.EntityTransaction;
 import javax.persistence.TypedQuery;
@@ -66,8 +66,23 @@ import java.util.UUID;
             else {System.out.println("cannot find the vehicle");}
         }
 
+        public List<MaintenanceRecord> getMaintenanceRecordsByPeriod(LocalDate maintenanceStartDate, LocalDate maintenanceEndDate) {
+            TypedQuery<MaintenanceRecord> query = em.createNamedQuery("getMaintenanceRecordsByPeriod", MaintenanceRecord.class);
+            query.setParameter("startDate", maintenanceStartDate);
+            query.setParameter("endDate", maintenanceEndDate);
+            return query.getResultList();
+        }
+
+        public List<Vehicle> getServiceVehicleByPeriod(LocalDate serviceStartDate, LocalDate serviceEndDate) {
+            TypedQuery<Vehicle> query = em.createNamedQuery("getServiceVehicleByPeriod", Vehicle.class);
+            query.setParameter("startDate", serviceStartDate);
+            query.setParameter("endDate", serviceEndDate);
+            return query.getResultList();
+        }
+
         public List<Vehicle> getAllVehicles () {
             TypedQuery<Vehicle> query = em.createQuery("SELECT v FROM Vehicle v", Vehicle.class);
+
             return query.getResultList();
         }
     }

@@ -14,9 +14,12 @@ public class Tram extends Vehicle{
     @Column(name = "numero_vagoni")
     private int numeroVagoni;
 
+    public Tram(int capacity, LocalDate maintenanceStartDate, LocalDate maintenanceEndDate, LocalDate serviceStartDate, LocalDate serviceEndDate, int numeroVagoni) {
+        super(capacity, maintenanceStartDate, maintenanceEndDate, serviceStartDate, serviceEndDate);
+        this.numeroVagoni = numeroVagoni;
+    }
     // CONSTRUCTORS
     public Tram(){}
-
 
     public Tram(int capacity, List<MaintenanceRecord> maintenanceRecords, LocalDate serviceStartDate, int numeroVagoni) {
         super(capacity, maintenanceRecords, serviceStartDate);

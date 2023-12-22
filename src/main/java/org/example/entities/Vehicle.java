@@ -10,10 +10,20 @@ import java.util.UUID;
     @Table(name = "vehicle")
     @Inheritance(strategy = InheritanceType.JOINED)
     @DiscriminatorColumn(name = "vehicle_type")
+    @NamedQueries({
+            @NamedQuery(name = "getMaintenanceRecordsByPeriod", query = "SELECT mr FROM Vehicle v JOIN v.maintenanceRecords mr "
+                    + "WHERE (mr.maintenanceStartDate BETWEEN :startDate AND :endDate "
+                    + "OR mr.maintenanceEndDate BETWEEN :startDate AND :endDate)"),
+            @NamedQuery(name = "getServiceVehicleByPeriod", query = "SELECT v FROM Vehicle v "
+                    + "WHERE (v.serviceStartDate BETWEEN :startDate AND :endDate "
+                    + "OR v.serviceEndDate BETWEEN :startDate AND :endDate)")
+    })
+
     public abstract class Vehicle {
         @Id
         @GeneratedValue
         private UUID uuid;
+
         @Column(name = "capacity")
         private int capacity;
 
@@ -52,13 +62,18 @@ import java.util.UUID;
             this.maintenanceRecords = maintenanceRecords;
             this.serviceStartDate = serviceStartDate;
         }
+
+        public Vehicle(int capacity, LocalDate maintenanceStartDate, LocalDate maintenanceEndDate, LocalDate serviceStartDate, LocalDate serviceEndDate) {
+
+            this.capacity = capacity;
+            this.serviceStartDate = serviceStartDate;
+            this.serviceEndDate = serviceEndDate;
+        }
+
         public Vehicle(int capacity, LocalDate serviceStartDate) {
             this.capacity = capacity;
             this.serviceStartDate = serviceStartDate;
         }
-
-
-
         public UUID getUuid() {
             return uuid;
         }
